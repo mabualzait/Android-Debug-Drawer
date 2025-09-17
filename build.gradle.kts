@@ -7,7 +7,7 @@ plugins {
     id("com.google.dagger.hilt.android") version "2.48" apply false
     id("io.gitlab.arturbosch.detekt") version "1.23.4" apply false
     id("org.jlleitschuh.gradle.ktlint") version "11.6.1" apply false
-    id("jacoco") version "0.8.8" apply false
+    id("jacoco") apply false
 }
 
 tasks.register("clean", Delete::class) {
@@ -18,7 +18,7 @@ tasks.register("clean", Delete::class) {
 apply(plugin = "jacoco")
 
 jacoco {
-    toolVersion = "0.8.8"
+    toolVersion = "0.8.11"
 }
 
 tasks.register<JacocoReport>("jacocoRootReport") {
