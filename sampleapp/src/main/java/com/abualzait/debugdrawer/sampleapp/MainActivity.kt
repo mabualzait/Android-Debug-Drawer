@@ -5,6 +5,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import java.io.IOException
 import com.abualzait.debugdrawer.DebugDrawer
 import com.abualzait.debugdrawer.modules.AppInfoModule
 import com.abualzait.debugdrawer.modules.ClipboardModule
@@ -86,10 +87,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @Suppress("TooGenericExceptionCaught")
     private fun makeSampleNetworkRequest() {
         lifecycleScope.launch {
             try {
-                val result = sampleNetworkClient.getUsers()
+                sampleNetworkClient.getUsers()
                 Toast.makeText(this@MainActivity, "Network request completed", Toast.LENGTH_SHORT).show()
             } catch (e: Exception) {
                 Toast.makeText(this@MainActivity, "Network request failed: ${e.message}", Toast.LENGTH_SHORT).show()

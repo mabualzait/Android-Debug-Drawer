@@ -2,7 +2,6 @@ package com.abualzait.debugdrawer.modules
 
 import android.content.Context
 import com.abualzait.debugdrawer.utils.Logger
-import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Assert.assertEquals
