@@ -26,9 +26,11 @@ build/
 
 # Local configuration files (keep local only)
 local.properties
-gradle.properties
 idea.md
 PROJECT_SUMMARY.md
+
+# Local gradle.properties overrides (create gradle.properties.local for local overrides)
+gradle.properties.local
 
 # IDE and development files
 .idea/
