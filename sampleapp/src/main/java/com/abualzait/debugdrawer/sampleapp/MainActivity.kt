@@ -5,7 +5,6 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import java.io.IOException
 import com.abualzait.debugdrawer.DebugDrawer
 import com.abualzait.debugdrawer.modules.AppInfoModule
 import com.abualzait.debugdrawer.modules.ClipboardModule
