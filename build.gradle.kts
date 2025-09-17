@@ -7,7 +7,6 @@ plugins {
     id("com.google.dagger.hilt.android") version "2.48" apply false
     id("io.gitlab.arturbosch.detekt") version "1.23.4" apply false
     id("org.jlleitschuh.gradle.ktlint") version "11.6.1" apply false
-    id("jacoco") apply false
 }
 
 tasks.register("clean", Delete::class) {
