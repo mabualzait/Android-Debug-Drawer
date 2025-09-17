@@ -2,6 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![CI](https://github.com/mabualzait/Android-Debug-Drawer/workflows/CI/badge.svg)](https://github.com/mabualzait/Android-Debug-Drawer/actions)
+[![JitPack](https://jitpack.io/v/mabualzait/Android-Debug-Drawer.svg)](https://jitpack.io/#mabualzait/Android-Debug-Drawer)
 [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
 [![Android](https://img.shields.io/badge/Platform-Android-green.svg)](https://developer.android.com/)
 [![Kotlin](https://img.shields.io/badge/Language-Kotlin-blue.svg)](https://kotlinlang.org/)
