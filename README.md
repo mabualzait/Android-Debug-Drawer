@@ -6,7 +6,7 @@
 [![Android](https://img.shields.io/badge/Platform-Android-green.svg)](https://developer.android.com/)
 [![Kotlin](https://img.shields.io/badge/Language-Kotlin-blue.svg)](https://kotlinlang.org/)
 
-A **comprehensive, production-ready debug drawer for Android apps** that provides developers with powerful debugging tools directly within their applications. This library overlays your app in debug builds and offers modular debugging capabilities including app inspection, network monitoring, feature flag management, and more—all without leaving your app.
+A **comprehensive, production-ready debug drawer for Android apps** that provides developers with powerful debugging tools directly within their applications. Created by **Malik Abualzait**, this library overlays your app in debug builds and offers modular debugging capabilities including app inspection, network monitoring, feature flag management, and more—all without leaving your app.
 
 ## 🎯 Why Android Debug Drawer?
 
@@ -484,7 +484,10 @@ Check out the sample app included in this repository to see the Android Debug Dr
 - [Hilt](https://dagger.dev/hilt/) for dependency injection
 - [Retrofit](https://square.github.io/retrofit/) for networking
 - [DataStore](https://developer.android.com/topic/libraries/architecture/datastore) for data persistence
+- Special thanks to the Android development community for inspiration and feedback
+
+**Developer:** [Malik Abualzait](https://github.com/mabualzait) - Android Developer & Open Source Contributor
 
 ---
 
-**Made with ❤️ for the Android development community**
+**Made with ❤️ by [Malik Abualzait](https://github.com/mabualzait) for the Android development community**

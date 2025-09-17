@@ -13,7 +13,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class NetworkInterceptor @Inject constructor(
-    private val logger: Logger
+    private val logger: Logger,
 ) : Interceptor {
 
     private val networkLogs = mutableListOf<NetworkLog>()
@@ -38,7 +38,7 @@ class NetworkInterceptor @Inject constructor(
                 }
             },
             timestamp = requestTime,
-            type = NetworkLogType.REQUEST
+            type = NetworkLogType.REQUEST,
         )
 
         networkLogs.add(requestLog)
@@ -59,7 +59,7 @@ class NetworkInterceptor @Inject constructor(
                 responseBody = null,
                 timestamp = System.currentTimeMillis(),
                 duration = System.currentTimeMillis() - requestTime,
-                type = NetworkLogType.ERROR
+                type = NetworkLogType.ERROR,
             )
             networkLogs.add(errorLog)
             logger.e("NetworkInterceptor", "Request failed: ${request.method} ${request.url}", e)
@@ -105,7 +105,7 @@ class NetworkInterceptor @Inject constructor(
             },
             timestamp = responseTime,
             duration = duration,
-            type = NetworkLogType.RESPONSE
+            type = NetworkLogType.RESPONSE,
         )
 
         networkLogs.add(responseLog)
@@ -144,7 +144,7 @@ data class NetworkLog(
     val responseBody: String? = null,
     val timestamp: Long,
     val duration: Long = 0,
-    val type: NetworkLogType
+    val type: NetworkLogType,
 )
 
 /**
@@ -153,5 +153,5 @@ data class NetworkLog(
 enum class NetworkLogType {
     REQUEST,
     RESPONSE,
-    ERROR
+    ERROR,
 }

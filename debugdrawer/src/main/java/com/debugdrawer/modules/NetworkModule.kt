@@ -18,7 +18,7 @@ import javax.inject.Inject
 class NetworkModule @Inject constructor(
     private val context: Context,
     private val logger: Logger,
-    private val networkInterceptor: NetworkInterceptor
+    private val networkInterceptor: NetworkInterceptor,
 ) : DebugModule {
 
     override val name: String = "network"
@@ -84,7 +84,7 @@ class NetworkModule @Inject constructor(
  */
 private class NetworkLogAdapter(
     context: Context,
-    logs: List<NetworkLog>
+    logs: List<NetworkLog>,
 ) : ArrayAdapter<NetworkLog>(context, R.layout.item_network_log, logs) {
 
     override fun getView(position: Int, convertView: View?, parent: android.view.ViewGroup): View {

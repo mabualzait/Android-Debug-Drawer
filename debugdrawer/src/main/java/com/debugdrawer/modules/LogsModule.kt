@@ -18,7 +18,7 @@ import javax.inject.Inject
  */
 class LogsModule @Inject constructor(
     private val context: Context,
-    private val logger: Logger
+    private val logger: Logger,
 ) : DebugModule {
 
     override val name: String = "logs"
@@ -80,9 +80,9 @@ class LogsModule @Inject constructor(
         try {
             val process = Runtime.getRuntime().exec("logcat -d -v time")
             val reader = BufferedReader(InputStreamReader(process.inputStream))
-            
+
             logEntries.clear()
-            
+
             reader.useLines { lines ->
                 lines.forEach { line ->
                     val logEntry = parseLogLine(line)
@@ -91,7 +91,7 @@ class LogsModule @Inject constructor(
                     }
                 }
             }
-            
+
             adapter?.notifyDataSetChanged()
             logger.d("LogsModule", "Refreshed logs: ${logEntries.size} entries")
         } catch (e: Exception) {
@@ -135,11 +135,11 @@ class LogsModule @Inject constructor(
                 val tid = parts[3]
                 val levelStr = parts[4]
                 val tagAndMessage = parts[5]
-                
+
                 val colonIndex = tagAndMessage.indexOf(':')
                 val tag = if (colonIndex > 0) tagAndMessage.substring(0, colonIndex) else "Unknown"
                 val message = if (colonIndex > 0) tagAndMessage.substring(colonIndex + 1).trim() else tagAndMessage
-                
+
                 val level = when (levelStr) {
                     "V" -> LogLevel.VERBOSE
                     "D" -> LogLevel.DEBUG
@@ -149,7 +149,7 @@ class LogsModule @Inject constructor(
                     "F" -> LogLevel.FATAL
                     else -> LogLevel.INFO
                 }
-                
+
                 LogEntry(timestamp, pid, tid, level, tag, message)
             } else {
                 null
@@ -182,7 +182,7 @@ data class LogEntry(
     val tid: String,
     val level: LogLevel,
     val tag: String,
-    val message: String
+    val message: String,
 )
 
 /**
@@ -194,7 +194,7 @@ enum class LogLevel(val displayName: String) {
     INFO("I"),
     WARNING("W"),
     ERROR("E"),
-    FATAL("F")
+    FATAL("F"),
 }
 
 /**
@@ -202,7 +202,7 @@ enum class LogLevel(val displayName: String) {
  */
 private class LogAdapter(
     context: Context,
-    logs: List<LogEntry>
+    logs: List<LogEntry>,
 ) : ArrayAdapter<LogEntry>(context, R.layout.item_log, logs) {
 
     override fun getView(position: Int, convertView: View?, parent: android.view.ViewGroup): View {

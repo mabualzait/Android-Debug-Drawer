@@ -27,7 +27,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -54,7 +54,7 @@ android {
 
 dependencies {
     implementation(project(":debugdrawer"))
-    
+
     // Android Core
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -108,18 +108,7 @@ detekt {
     config.setFrom("$projectDir/../detekt.yml")
 }
 
+// JaCoCo configuration
 jacoco {
     toolVersion = "0.8.11"
-}
-
-tasks.withType<Test> {
-    finalizedBy(tasks.jacocoTestReport)
-}
-
-tasks.jacocoTestReport {
-    dependsOn(tasks.test)
-    reports {
-        xml.required.set(true)
-        html.required.set(true)
-    }
 }

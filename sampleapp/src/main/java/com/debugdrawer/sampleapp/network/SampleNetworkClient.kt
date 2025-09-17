@@ -15,7 +15,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class SampleNetworkClient @Inject constructor(
-    private val networkInterceptor: NetworkInterceptor
+    private val networkInterceptor: NetworkInterceptor,
 ) {
     private val apiService: ApiService
 
@@ -62,12 +62,12 @@ data class User(
     val username: String,
     val email: String,
     val phone: String,
-    val website: String
+    val website: String,
 )
 
 data class Post(
     val id: Int,
     val userId: Int,
     val title: String,
-    val body: String
+    val body: String,
 )

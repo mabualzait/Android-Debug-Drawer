@@ -19,7 +19,7 @@ import javax.inject.Inject
  */
 class ClipboardModule @Inject constructor(
     private val context: Context,
-    private val logger: Logger
+    private val logger: Logger,
 ) : DebugModule {
 
     override val name: String = "clipboard"

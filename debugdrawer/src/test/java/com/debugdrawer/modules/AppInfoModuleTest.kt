@@ -1,16 +1,18 @@
 package com.debugdrawer.modules
 
 import android.content.Context
-import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
 import com.debugdrawer.utils.Logger
-import io.mockk.*
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
-import org.junit.Assert.*
 
 @RunWith(RobolectricTestRunner::class)
 class AppInfoModuleTest {
@@ -40,7 +42,7 @@ class AppInfoModuleTest {
     fun `createView should return valid view`() {
         // When
         val view = appInfoModule.createView()
-        
+
         // Then
         assertNotNull(view)
         verify { mockLogger.d("AppInfoModule", "Created app info view") }
@@ -50,7 +52,7 @@ class AppInfoModuleTest {
     fun `onAttach should log message`() {
         // When
         appInfoModule.onAttach()
-        
+
         // Then
         verify { mockLogger.d("AppInfoModule", "Attached to debug drawer") }
     }
@@ -59,7 +61,7 @@ class AppInfoModuleTest {
     fun `onDetach should log message`() {
         // When
         appInfoModule.onDetach()
-        
+
         // Then
         verify { mockLogger.d("AppInfoModule", "Detached from debug drawer") }
     }

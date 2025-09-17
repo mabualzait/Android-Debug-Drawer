@@ -1,12 +1,9 @@
 package com.debugdrawer
 
 import android.app.Activity
-import android.content.Context
-import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.fragment.app.Fragment
 import com.debugdrawer.modules.DebugModule
 import com.debugdrawer.utils.Logger
 import javax.inject.Inject
@@ -18,7 +15,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class DebugDrawer @Inject constructor(
-    private val logger: Logger
+    private val logger: Logger,
 ) {
     private var isInitialized = false
     private var debugOverlay: DebugOverlay? = null
@@ -103,7 +100,7 @@ class DebugDrawer @Inject constructor(
  */
 internal class DebugOverlay(
     private val activity: Activity,
-    private val modules: MutableList<DebugModule>
+    private val modules: MutableList<DebugModule>,
 ) {
     private var overlayView: View? = null
     private var drawerContainer: View? = null
@@ -119,7 +116,7 @@ internal class DebugOverlay(
 
     fun show() {
         if (isVisible) return
-        
+
         createOverlayView()
         overlayView?.let { view ->
             val rootView = activity.findViewById<ViewGroup>(android.R.id.content)
@@ -154,31 +151,31 @@ internal class DebugOverlay(
         overlayView = inflater.inflate(R.layout.debug_drawer_overlay, null).apply {
             layoutParams = FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT
+                FrameLayout.LayoutParams.MATCH_PARENT,
             )
         }
-        
+
         // Set up the drawer container
         drawerContainer = overlayView?.findViewById(R.id.debug_drawer_container)
-        
+
         // Add modules to the drawer
         setupModules()
-        
+
         // Set up close button
         overlayView?.findViewById<View>(R.id.btn_close_drawer)?.setOnClickListener {
             hide()
         }
-        
+
         // Set up overlay click to close
         overlayView?.findViewById<View>(R.id.debug_overlay_background)?.setOnClickListener {
             hide()
         }
     }
-    
+
     private fun setupModules() {
         val modulesContainer = drawerContainer?.findViewById<android.widget.LinearLayout>(R.id.ll_modules_container)
         modulesContainer?.removeAllViews()
-        
+
         android.util.Log.d("DebugDrawer", "Setting up ${modules.size} modules")
         modules.forEach { module ->
             android.util.Log.d("DebugDrawer", "Adding module: ${module.name}")
@@ -186,22 +183,22 @@ internal class DebugOverlay(
             modulesContainer?.addView(moduleView)
         }
     }
-    
+
     private fun createModuleView(module: DebugModule): View {
         val inflater = activity.layoutInflater
         val moduleContainer = inflater.inflate(R.layout.debug_module_container, null)
-        
+
         // Set module title
         moduleContainer.findViewById<android.widget.TextView>(R.id.tv_module_title).text = module.title
-        
+
         // Set module description
         moduleContainer.findViewById<android.widget.TextView>(R.id.tv_module_description).text = module.description
-        
+
         // Add module content
         val contentContainer = moduleContainer.findViewById<android.widget.LinearLayout>(R.id.ll_module_content)
         val moduleContentView = module.createView()
         contentContainer.addView(moduleContentView)
-        
+
         return moduleContainer
     }
 }

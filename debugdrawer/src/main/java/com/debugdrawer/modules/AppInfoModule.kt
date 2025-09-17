@@ -15,7 +15,7 @@ import javax.inject.Inject
  */
 class AppInfoModule @Inject constructor(
     private val context: Context,
-    private val logger: Logger
+    private val logger: Logger,
 ) : DebugModule {
 
     override val name: String = "app_info"
@@ -37,7 +37,7 @@ class AppInfoModule @Inject constructor(
     private fun setupAppInfo(view: View) {
         try {
             val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-            
+
             view.findViewById<TextView>(R.id.tv_app_name).text = getAppName()
             view.findViewById<TextView>(R.id.tv_package_name).text = context.packageName
             view.findViewById<TextView>(R.id.tv_version_name).text = packageInfo.versionName

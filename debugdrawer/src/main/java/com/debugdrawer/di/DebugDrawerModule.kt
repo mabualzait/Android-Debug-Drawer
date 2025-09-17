@@ -2,7 +2,12 @@ package com.debugdrawer.di
 
 import android.content.Context
 import com.debugdrawer.DebugDrawer
-import com.debugdrawer.modules.*
+import com.debugdrawer.modules.AppInfoModule
+import com.debugdrawer.modules.ClipboardModule
+import com.debugdrawer.modules.FeatureFlagsModule
+import com.debugdrawer.modules.LogsModule
+import com.debugdrawer.modules.NetworkModule
+import com.debugdrawer.modules.SettingsModule
 import com.debugdrawer.utils.Logger
 import com.debugdrawer.utils.NetworkInterceptor
 import dagger.Module
@@ -35,7 +40,7 @@ object DebugDrawerModule {
     @Singleton
     fun provideAppInfoModule(
         @ApplicationContext context: Context,
-        logger: Logger
+        logger: Logger,
     ): AppInfoModule = AppInfoModule(context, logger)
 
     @Provides
@@ -43,34 +48,34 @@ object DebugDrawerModule {
     fun provideNetworkModule(
         @ApplicationContext context: Context,
         logger: Logger,
-        networkInterceptor: NetworkInterceptor
+        networkInterceptor: NetworkInterceptor,
     ): NetworkModule = NetworkModule(context, logger, networkInterceptor)
 
     @Provides
     @Singleton
     fun provideFeatureFlagsModule(
         @ApplicationContext context: Context,
-        logger: Logger
+        logger: Logger,
     ): FeatureFlagsModule = FeatureFlagsModule(context, logger)
 
     @Provides
     @Singleton
     fun provideLogsModule(
         @ApplicationContext context: Context,
-        logger: Logger
+        logger: Logger,
     ): LogsModule = LogsModule(context, logger)
 
     @Provides
     @Singleton
     fun provideSettingsModule(
         @ApplicationContext context: Context,
-        logger: Logger
+        logger: Logger,
     ): SettingsModule = SettingsModule(context, logger)
 
     @Provides
     @Singleton
     fun provideClipboardModule(
         @ApplicationContext context: Context,
-        logger: Logger
+        logger: Logger,
     ): ClipboardModule = ClipboardModule(context, logger)
 }

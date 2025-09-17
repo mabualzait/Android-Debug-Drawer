@@ -6,8 +6,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.debugdrawer.DebugDrawer
-import com.debugdrawer.modules.*
-import com.debugdrawer.sampleapp.R
+import com.debugdrawer.modules.AppInfoModule
+import com.debugdrawer.modules.ClipboardModule
+import com.debugdrawer.modules.FeatureFlagsModule
+import com.debugdrawer.modules.LogsModule
+import com.debugdrawer.modules.NetworkModule
+import com.debugdrawer.modules.SettingsModule
 import com.debugdrawer.sampleapp.network.SampleNetworkClient
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -97,7 +101,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val isNewUIEnabled = featureFlagsModule.isFeatureEnabled("enable_new_ui")
             val isAnalyticsEnabled = featureFlagsModule.isFeatureEnabled("enable_analytics")
-            
+
             val message = "Feature Flags:\nNew UI: $isNewUIEnabled\nAnalytics: $isAnalyticsEnabled"
             Toast.makeText(this@MainActivity, message, Toast.LENGTH_LONG).show()
         }
@@ -107,7 +111,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val apiUrl = settingsModule.getSettingValue("api_base_url")
             val timeout = settingsModule.getSettingValue("api_timeout")
-            
+
             val message = "Settings:\nAPI URL: $apiUrl\nTimeout: $timeout"
             Toast.makeText(this@MainActivity, message, Toast.LENGTH_LONG).show()
         }

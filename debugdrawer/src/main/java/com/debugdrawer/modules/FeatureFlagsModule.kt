@@ -26,7 +26,7 @@ import javax.inject.Inject
  */
 class FeatureFlagsModule @Inject constructor(
     private val context: Context,
-    private val logger: Logger
+    private val logger: Logger,
 ) : DebugModule {
 
     override val name: String = "feature_flags"
@@ -44,7 +44,7 @@ class FeatureFlagsModule @Inject constructor(
         "enable_crash_reporting" to "Enable Crash Reporting",
         "enable_performance_monitoring" to "Enable Performance Monitoring",
         "enable_debug_logging" to "Enable Debug Logging",
-        "enable_beta_features" to "Enable Beta Features"
+        "enable_beta_features" to "Enable Beta Features",
     )
 
     override fun createView(): View {

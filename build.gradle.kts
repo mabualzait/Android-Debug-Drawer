@@ -13,44 +13,4 @@ tasks.register("clean", Delete::class) {
     delete(rootProject.layout.buildDirectory)
 }
 
-// Root-level JaCoCo configuration for multi-module coverage
-apply(plugin = "jacoco")
-
-jacoco {
-    toolVersion = "0.8.11"
-}
-
-tasks.register<JacocoReport>("jacocoRootReport") {
-    group = "Reporting"
-    description = "Generate Jacoco coverage reports for all modules"
-    
-    reports {
-        xml.required.set(true)
-        html.required.set(true)
-    }
-    
-    val fileFilter = listOf(
-        "**/R.class",
-        "**/R$*.class",
-        "**/BuildConfig.*",
-        "**/Manifest*.*",
-        "**/*Test*.*",
-        "android/**/*.*",
-        "**/di/**",
-        "**/hilt/**"
-    )
-    
-    val debugTree = fileTree("${project.rootDir}/debugdrawer/build/tmp/kotlin-classes/debug") {
-        exclude(fileFilter)
-    }
-    val sampleappTree = fileTree("${project.rootDir}/sampleapp/build/tmp/kotlin-classes/debug") {
-        exclude(fileFilter)
-    }
-    
-    classDirectories.setFrom(files(debugTree, sampleappTree))
-    executionData.setFrom(fileTree("${project.rootDir}") {
-        include("**/build/jacoco/*.exec")
-    })
-    
-    dependsOn(":debugdrawer:test", ":sampleapp:test")
-}
+// JaCoCo configuration will be handled by individual modules

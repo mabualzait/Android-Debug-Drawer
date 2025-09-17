@@ -26,7 +26,7 @@ import javax.inject.Inject
  */
 class SettingsModule @Inject constructor(
     private val context: Context,
-    private val logger: Logger
+    private val logger: Logger,
 ) : DebugModule {
 
     override val name: String = "settings"
@@ -44,7 +44,7 @@ class SettingsModule @Inject constructor(
         "cache_size" to "Cache Size (MB)",
         "debug_level" to "Debug Level",
         "enable_crashlytics" to "Enable Crashlytics",
-        "enable_analytics" to "Enable Analytics"
+        "enable_analytics" to "Enable Analytics",
     )
 
     override fun createView(): View {
