@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@android:color/white"
+    android:elevation="4dp">
+
+    <!-- Module title -->
+    <TextView
+        android:id="@+id/tv_module_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Module Title"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="4dp" />
+
+    <!-- Module description -->
+    <TextView
+        android:id="@+id/tv_module_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Module description"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Module content container -->
+    <LinearLayout
+        android:id="@+id/ll_module_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+</LinearLayout>

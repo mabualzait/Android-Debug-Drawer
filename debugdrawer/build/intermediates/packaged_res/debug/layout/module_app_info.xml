@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="App Information"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@android:color/white"
+            android:elevation="4dp">
+
+            <TextView
+                android:id="@+id/tv_app_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="App Name"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_package_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Package Name"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/tv_version_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Version Name"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_version_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Version Code"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_target_sdk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Target SDK"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_min_sdk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Min SDK"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Device Information"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@android:color/white"
+            android:elevation="4dp">
+
+            <TextView
+                android:id="@+id/tv_device_model"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Device Model"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_device_manufacturer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Manufacturer"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/tv_android_version"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Android Version"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_build_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Build ID"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_build_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Build Type"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_build_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Build Time"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

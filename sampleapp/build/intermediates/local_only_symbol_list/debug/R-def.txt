@@ -1,0 +1,20 @@
+R_DEF: Internal format may change without notice
+local
+color black
+color purple_200
+color purple_500
+color purple_700
+color teal_200
+color teal_700
+color white
+id btn_make_network_request
+id btn_test_feature_flags
+id btn_test_settings
+id btn_toggle_debug_drawer
+layout activity_main
+mipmap ic_launcher
+mipmap ic_launcher_round
+string app_name
+style Theme.SampleApp
+xml backup_rules
+xml data_extraction_rules
