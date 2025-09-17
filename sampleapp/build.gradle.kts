@@ -5,6 +5,7 @@ plugins {
     id("kotlin-kapt")
     id("io.gitlab.arturbosch.detekt")
     id("org.jlleitschuh.gradle.ktlint")
+    id("jacoco")
 }
 
 android {
@@ -104,6 +105,21 @@ ktlint {
 detekt {
     buildUponDefaultConfig = true
     allRules = false
-    config.setFrom("$projectDir/detekt.yml")
-    baseline = file("$projectDir/baseline.xml")
+    config.setFrom("$projectDir/../detekt.yml")
+}
+
+jacoco {
+    toolVersion = "0.8.8"
+}
+
+tasks.withType<Test> {
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
 }

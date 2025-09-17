@@ -20,7 +20,7 @@ jobs:
         distribution: 'temurin'
 
     - name: Cache Gradle packages
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           ~/.gradle/caches
@@ -54,7 +54,7 @@ jobs:
       run: ./gradlew assembleRelease
 
     - name: Upload test results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: test-results
@@ -63,7 +63,7 @@ jobs:
           sampleapp/build/reports/
 
     - name: Upload APK
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: apk
         path: |
@@ -83,7 +83,7 @@ jobs:
         distribution: 'temurin'
 
     - name: Cache Gradle packages
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           ~/.gradle/caches
@@ -101,11 +101,8 @@ jobs:
     - name: Run detekt
       run: ./gradlew detekt
 
-    - name: Generate detekt report
-      run: ./gradlew detektGenerateConfig
-
     - name: Upload detekt report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: detekt-report
@@ -126,7 +123,7 @@ jobs:
         distribution: 'temurin'
 
     - name: Cache Gradle packages
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           ~/.gradle/caches
@@ -139,20 +136,20 @@ jobs:
       run: chmod +x gradlew
 
     - name: Run tests with coverage
-      run: ./gradlew jacocoTestReport
+      run: ./gradlew jacocoRootReport
 
     - name: Upload coverage reports
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: coverage-reports
         path: |
+          build/reports/jacoco/jacocoRootReport/
           debugdrawer/build/reports/jacoco/
           sampleapp/build/reports/jacoco/
 
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4
       with:
         files: |
-          debugdrawer/build/reports/jacoco/test/jacocoTestReport.xml
-          sampleapp/build/reports/jacoco/test/jacocoTestReport.xml
+          build/reports/jacoco/jacocoRootReport/jacocoRootReport.xml
         fail_ci_if_error: true

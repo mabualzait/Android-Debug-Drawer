@@ -7,8 +7,51 @@ plugins {
     id("com.google.dagger.hilt.android") version "2.48" apply false
     id("io.gitlab.arturbosch.detekt") version "1.23.4" apply false
     id("org.jlleitschuh.gradle.ktlint") version "11.6.1" apply false
+    id("jacoco") version "0.8.8" apply false
 }
 
 tasks.register("clean", Delete::class) {
     delete(rootProject.layout.buildDirectory)
+}
+
+// Root-level JaCoCo configuration for multi-module coverage
+apply(plugin = "jacoco")
+
+jacoco {
+    toolVersion = "0.8.8"
+}
+
+tasks.register<JacocoReport>("jacocoRootReport") {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports for all modules"
+    
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
+    
+    val fileFilter = listOf(
+        "**/R.class",
+        "**/R$*.class",
+        "**/BuildConfig.*",
+        "**/Manifest*.*",
+        "**/*Test*.*",
+        "android/**/*.*",
+        "**/di/**",
+        "**/hilt/**"
+    )
+    
+    val debugTree = fileTree("${project.rootDir}/debugdrawer/build/tmp/kotlin-classes/debug") {
+        exclude(fileFilter)
+    }
+    val sampleappTree = fileTree("${project.rootDir}/sampleapp/build/tmp/kotlin-classes/debug") {
+        exclude(fileFilter)
+    }
+    
+    classDirectories.setFrom(files(debugTree, sampleappTree))
+    executionData.setFrom(fileTree("${project.rootDir}") {
+        include("**/build/jacoco/*.exec")
+    })
+    
+    dependsOn(":debugdrawer:test", ":sampleapp:test")
 }
