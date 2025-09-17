@@ -1,4 +1,4 @@
-package com.debugdrawer.sampleapp
+package com.abualzait.debugdrawer.sampleapp
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

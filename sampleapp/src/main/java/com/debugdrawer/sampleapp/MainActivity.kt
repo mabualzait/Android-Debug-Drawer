@@ -1,18 +1,18 @@
-package com.debugdrawer.sampleapp
+package com.abualzait.debugdrawer.sampleapp
 
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.debugdrawer.DebugDrawer
-import com.debugdrawer.modules.AppInfoModule
-import com.debugdrawer.modules.ClipboardModule
-import com.debugdrawer.modules.FeatureFlagsModule
-import com.debugdrawer.modules.LogsModule
-import com.debugdrawer.modules.NetworkModule
-import com.debugdrawer.modules.SettingsModule
-import com.debugdrawer.sampleapp.network.SampleNetworkClient
+import com.abualzait.debugdrawer.DebugDrawer
+import com.abualzait.debugdrawer.modules.AppInfoModule
+import com.abualzait.debugdrawer.modules.ClipboardModule
+import com.abualzait.debugdrawer.modules.FeatureFlagsModule
+import com.abualzait.debugdrawer.modules.LogsModule
+import com.abualzait.debugdrawer.modules.NetworkModule
+import com.abualzait.debugdrawer.modules.SettingsModule
+import com.abualzait.debugdrawer.sampleapp.network.SampleNetworkClient
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject

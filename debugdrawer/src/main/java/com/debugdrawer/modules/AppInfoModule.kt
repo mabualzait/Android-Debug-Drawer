@@ -1,4 +1,4 @@
-package com.debugdrawer.modules
+package com.abualzait.debugdrawer.modules
 
 import android.content.Context
 import android.content.pm.PackageManager
@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import com.debugdrawer.R
-import com.debugdrawer.utils.Logger
+import com.abualzait.debugdrawer.utils.Logger
 import javax.inject.Inject
 
 /**

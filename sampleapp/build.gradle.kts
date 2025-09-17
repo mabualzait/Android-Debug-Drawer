@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    namespace = "com.debugdrawer.sampleapp"
+    namespace = "com.abualzait.debugdrawer.sampleapp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.debugdrawer.sampleapp"
+        applicationId = "com.abualzait.debugdrawer.sampleapp"
         minSdk = 21
         targetSdk = 34
         versionCode = 1

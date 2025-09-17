@@ -1,7 +1,7 @@
-package com.debugdrawer.modules
+package com.abualzait.debugdrawer.modules
 
 import android.content.Context
-import com.debugdrawer.utils.Logger
+import com.abualzait.debugdrawer.utils.Logger
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

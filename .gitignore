@@ -173,3 +173,13 @@ build/reports/lint-results*
 # OS files
 .DS_Store
 Thumbs.db
+.gradle/8.4/checksums/checksums.lock
+.gradle/8.4/checksums/md5-checksums.bin
+.gradle/8.4/checksums/sha1-checksums.bin
+.gradle/8.4/executionHistory/executionHistory.bin
+.gradle/8.4/executionHistory/executionHistory.lock
+.gradle/8.4/fileHashes/fileHashes.bin
+.gradle/8.4/fileHashes/fileHashes.lock
+.gradle/8.4/fileHashes/resourceHashesCache.bin
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
+.gradle/buildOutputCleanup/outputFiles.bin

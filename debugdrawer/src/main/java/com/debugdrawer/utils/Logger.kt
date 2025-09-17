@@ -1,4 +1,4 @@
-package com.debugdrawer.utils
+package com.abualzait.debugdrawer.utils
 
 import android.util.Log
 import javax.inject.Inject

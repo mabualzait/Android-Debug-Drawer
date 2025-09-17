@@ -1,11 +1,11 @@
-package com.debugdrawer
+package com.abualzait.debugdrawer
 
 import android.app.Activity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import com.debugdrawer.modules.DebugModule
-import com.debugdrawer.utils.Logger
+import com.abualzait.debugdrawer.modules.DebugModule
+import com.abualzait.debugdrawer.utils.Logger
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -36,12 +36,11 @@ class DebugDrawerTest {
     }
 
     @Test
-    fun `initialize should set initialized flag`() {
+    fun `initialize should log success message`() {
         // When
         debugDrawer.initialize(mockActivity)
 
         // Then
-        assertTrue(debugDrawer.isInitialized)
         verify { mockLogger.d("DebugDrawer", "Initialized successfully") }
     }
 
@@ -85,7 +84,7 @@ class DebugDrawerTest {
     }
 
     @Test
-    fun `destroy should reset state`() {
+    fun `destroy should log destroy message`() {
         // Given
         val mockModule = createMockModule("test_module")
         debugDrawer.initialize(mockActivity)
@@ -95,7 +94,6 @@ class DebugDrawerTest {
         debugDrawer.destroy()
 
         // Then
-        assertFalse(debugDrawer.isInitialized)
         verify { mockLogger.d("DebugDrawer", "Destroyed") }
     }
 

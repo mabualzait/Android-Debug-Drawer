@@ -1,11 +1,11 @@
-package com.debugdrawer
+package com.abualzait.debugdrawer
 
 import android.app.Activity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import com.debugdrawer.modules.DebugModule
-import com.debugdrawer.utils.Logger
+import com.abualzait.debugdrawer.modules.DebugModule
+import com.abualzait.debugdrawer.utils.Logger
 import javax.inject.Inject
 import javax.inject.Singleton
 

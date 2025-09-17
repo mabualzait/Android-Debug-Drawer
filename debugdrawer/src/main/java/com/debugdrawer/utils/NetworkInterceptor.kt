@@ -1,4 +1,4 @@
-package com.debugdrawer.utils
+package com.abualzait.debugdrawer.utils
 
 import okhttp3.Interceptor
 import okhttp3.Response

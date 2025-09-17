@@ -1,6 +1,6 @@
-package com.debugdrawer.sampleapp.network
+package com.abualzait.debugdrawer.sampleapp.network
 
-import com.debugdrawer.utils.NetworkInterceptor
+import com.abualzait.debugdrawer.utils.NetworkInterceptor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient

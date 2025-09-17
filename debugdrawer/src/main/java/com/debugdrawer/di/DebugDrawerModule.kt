@@ -1,15 +1,15 @@
-package com.debugdrawer.di
+package com.abualzait.debugdrawer.di
 
 import android.content.Context
-import com.debugdrawer.DebugDrawer
-import com.debugdrawer.modules.AppInfoModule
-import com.debugdrawer.modules.ClipboardModule
-import com.debugdrawer.modules.FeatureFlagsModule
-import com.debugdrawer.modules.LogsModule
-import com.debugdrawer.modules.NetworkModule
-import com.debugdrawer.modules.SettingsModule
-import com.debugdrawer.utils.Logger
-import com.debugdrawer.utils.NetworkInterceptor
+import com.abualzait.debugdrawer.DebugDrawer
+import com.abualzait.debugdrawer.modules.AppInfoModule
+import com.abualzait.debugdrawer.modules.ClipboardModule
+import com.abualzait.debugdrawer.modules.FeatureFlagsModule
+import com.abualzait.debugdrawer.modules.LogsModule
+import com.abualzait.debugdrawer.modules.NetworkModule
+import com.abualzait.debugdrawer.modules.SettingsModule
+import com.abualzait.debugdrawer.utils.Logger
+import com.abualzait.debugdrawer.utils.NetworkInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

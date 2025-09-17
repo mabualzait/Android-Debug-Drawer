@@ -1,4 +1,4 @@
-package com.debugdrawer.modules
+package com.abualzait.debugdrawer.modules
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -12,7 +12,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import com.debugdrawer.R
-import com.debugdrawer.utils.Logger
+import com.abualzait.debugdrawer.utils.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

@@ -73,13 +73,32 @@ The Android Debug Drawer is designed to be simple to integrate and use. Follow t
    }
    ```
 
-#### Option B: JitPack (Coming Soon)
+#### Option B: JitPack (Recommended)
+
+Add JitPack to your project's `build.gradle.kts` (project level):
+
+```kotlin
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }
+    }
+}
+```
+
+Then add the dependency to your app's `build.gradle.kts`:
 
 ```kotlin
 dependencies {
-    debugImplementation 'com.github.mabualzait:Android-Debug-Drawer:1.0.0'
+    debugImplementation 'com.abualzait:debugdrawer:1.0.0'
 }
 ```
+
+**Available versions:**
+- `1.0.0` - Latest stable release
+- `main-SNAPSHOT` - Latest development version
+- `v1.0.0` - Specific tag version
 
 ### 2. Basic Setup
 
@@ -104,7 +123,7 @@ dependencies {
 @HiltAndroidApp
 class MyApplication : Application() {
     @Inject
-    lateinit var debugDrawer: DebugDrawer
+    lateinit var debugDrawer: com.abualzait.debugdrawer.DebugDrawer
 
     override fun onCreate() {
         super.onCreate()
@@ -123,25 +142,25 @@ class MyApplication : Application() {
 class MainActivity : AppCompatActivity() {
     
     @Inject
-    lateinit var debugDrawer: DebugDrawer
+    lateinit var debugDrawer: com.abualzait.debugdrawer.DebugDrawer
     
     @Inject
-    lateinit var appInfoModule: AppInfoModule
+    lateinit var appInfoModule: com.abualzait.debugdrawer.modules.AppInfoModule
     
     @Inject
-    lateinit var networkModule: NetworkModule
+    lateinit var networkModule: com.abualzait.debugdrawer.modules.NetworkModule
     
     @Inject
-    lateinit var featureFlagsModule: FeatureFlagsModule
+    lateinit var featureFlagsModule: com.abualzait.debugdrawer.modules.com.abualzait.debugdrawer.modules.FeatureFlagsModule
     
     @Inject
-    lateinit var logsModule: LogsModule
+    lateinit var logsModule: com.abualzait.debugdrawer.modules.LogsModule
     
     @Inject
-    lateinit var settingsModule: SettingsModule
+    lateinit var settingsModule: com.abualzait.debugdrawer.modules.com.abualzait.debugdrawer.modules.SettingsModule
     
     @Inject
-    lateinit var clipboardModule: ClipboardModule
+    lateinit var clipboardModule: com.abualzait.debugdrawer.modules.ClipboardModule
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -258,7 +277,7 @@ object NetworkModule {
 
 ```kotlin
 @Inject
-lateinit var featureFlagsModule: FeatureFlagsModule
+lateinit var featureFlagsModule: com.abualzait.debugdrawer.modules.FeatureFlagsModule
 
 // Check if a feature is enabled
 lifecycleScope.launch {
@@ -273,7 +292,7 @@ lifecycleScope.launch {
 
 ```kotlin
 @Inject
-lateinit var settingsModule: SettingsModule
+lateinit var settingsModule: com.abualzait.debugdrawer.modules.SettingsModule
 
 // Get a setting value
 lifecycleScope.launch {
@@ -292,9 +311,9 @@ android-debug-drawer/
 │   │   ├── modules/               # Debug modules
 │   │   │   ├── AppInfoModule.kt
 │   │   │   ├── NetworkModule.kt
-│   │   │   ├── FeatureFlagsModule.kt
+│   │   │   ├── com.abualzait.debugdrawer.modules.FeatureFlagsModule.kt
 │   │   │   ├── LogsModule.kt
-│   │   │   ├── SettingsModule.kt
+│   │   │   ├── com.abualzait.debugdrawer.modules.SettingsModule.kt
 │   │   │   └── ClipboardModule.kt
 │   │   ├── utils/                 # Utility classes
 │   │   │   ├── Logger.kt
@@ -365,7 +384,7 @@ Feature flags are automatically persisted using DataStore. Access them in your a
 
 ```kotlin
 @Inject
-lateinit var featureFlagsModule: FeatureFlagsModule
+lateinit var featureFlagsModule: com.abualzait.debugdrawer.modules.FeatureFlagsModule
 
 // Check if a feature is enabled
 lifecycleScope.launch {
@@ -382,7 +401,7 @@ Settings are also persisted using DataStore:
 
 ```kotlin
 @Inject
-lateinit var settingsModule: SettingsModule
+lateinit var settingsModule: com.abualzait.debugdrawer.modules.SettingsModule
 
 // Get a setting value
 lifecycleScope.launch {
@@ -471,7 +490,7 @@ Check out the sample app included in this repository to see the Android Debug Dr
 
 ## 🚀 Roadmap
 
-- [ ] JitPack integration for easy dependency management
+- [x] JitPack integration for easy dependency management
 - [ ] More built-in modules (Database Inspector, Performance Monitor)
 - [ ] Custom theme support
 - [ ] Gesture-based activation (shake to open)

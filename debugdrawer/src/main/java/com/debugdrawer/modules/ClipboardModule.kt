@@ -1,4 +1,4 @@
-package com.debugdrawer.modules
+package com.abualzait.debugdrawer.modules
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -10,7 +10,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.debugdrawer.R
-import com.debugdrawer.utils.Logger
+import com.abualzait.debugdrawer.utils.Logger
 import javax.inject.Inject
 
 /**

@@ -1,0 +1,10 @@
+jdk:
+  - openjdk11
+
+before_install:
+  - echo "Starting JitPack build for Android Debug Drawer"
+
+build:
+  - ./gradlew clean build publishToMavenLocal
+
+# JitPack will automatically detect the Android library and create the AAR

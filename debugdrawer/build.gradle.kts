@@ -7,10 +7,11 @@ plugins {
     id("io.gitlab.arturbosch.detekt")
     id("org.jlleitschuh.gradle.ktlint")
     id("jacoco")
+    id("maven-publish")
 }
 
 android {
-    namespace = "com.debugdrawer"
+    namespace = "com.abualzait.debugdrawer"
     compileSdk = 34
 
     defaultConfig {
@@ -113,4 +114,47 @@ detekt {
 // JaCoCo configuration
 jacoco {
     toolVersion = "0.8.11"
+}
+
+// Maven publishing configuration for JitPack
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components["release"])
+
+                groupId = "com.abualzait"
+                artifactId = project.findProperty("POM_ARTIFACT_ID") as String? ?: "debugdrawer"
+                version = project.findProperty("VERSION_NAME") as String? ?: "1.0.0"
+
+                pom {
+                    name.set(project.findProperty("POM_NAME") as String? ?: "Android Debug Drawer")
+                    description.set(project.findProperty("POM_DESCRIPTION") as String? ?: "A comprehensive, production-ready debug drawer for Android apps")
+                    url.set(project.findProperty("POM_URL") as String? ?: "https://github.com/mabualzait/Android-Debug-Drawer")
+
+                    licenses {
+                        license {
+                            name.set(project.findProperty("POM_LICENCE_NAME") as String? ?: "MIT")
+                            url.set(project.findProperty("POM_LICENCE_URL") as String? ?: "https://opensource.org/licenses/MIT")
+                            distribution.set(project.findProperty("POM_LICENCE_DIST") as String? ?: "repo")
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id.set(project.findProperty("POM_DEVELOPER_ID") as String? ?: "mabualzait")
+                            name.set(project.findProperty("POM_DEVELOPER_NAME") as String? ?: "Malik Abualzait")
+                            url.set(project.findProperty("POM_DEVELOPER_URL") as String? ?: "https://github.com/mabualzait")
+                        }
+                    }
+
+                    scm {
+                        url.set(project.findProperty("POM_SCM_URL") as String? ?: "https://github.com/mabualzait/Android-Debug-Drawer")
+                        connection.set(project.findProperty("POM_SCM_CONNECTION") as String? ?: "scm:git:git://github.com/mabualzait/Android-Debug-Drawer.git")
+                        developerConnection.set(project.findProperty("POM_SCM_DEV_CONNECTION") as String? ?: "scm:git:ssh://github.com/mabualzait/Android-Debug-Drawer.git")
+                    }
+                }
+            }
+        }
+    }
 }
