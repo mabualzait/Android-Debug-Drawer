@@ -1,6 +1,7 @@
 package com.abualzait.debugdrawer.sampleapp
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,7 @@ import com.abualzait.debugdrawer.modules.NetworkModule
 import com.abualzait.debugdrawer.modules.SettingsModule
 import com.abualzait.debugdrawer.sampleapp.network.SampleNetworkClient
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -84,6 +86,10 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btn_test_settings).setOnClickListener {
             testSettings()
         }
+
+        findViewById<Button>(R.id.btn_generate_test_logs).setOnClickListener {
+            generateTestLogs()
+        }
     }
 
     @Suppress("TooGenericExceptionCaught")
@@ -115,6 +121,36 @@ class MainActivity : AppCompatActivity() {
 
             val message = "Settings:\nAPI URL: $apiUrl\nTimeout: $timeout"
             Toast.makeText(this@MainActivity, message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun generateTestLogs() {
+        lifecycleScope.launch {
+            Log.v("SampleApp", "This is a VERBOSE log message for testing")
+            delay(100)
+            Log.d("SampleApp", "This is a DEBUG log message for testing")
+            delay(100)
+            Log.i("SampleApp", "This is an INFO log message for testing")
+            delay(100)
+            Log.w("SampleApp", "This is a WARNING log message for testing")
+            delay(100)
+            Log.e("SampleApp", "This is an ERROR log message for testing")
+            delay(100)
+            Log.wtf("SampleApp", "This is a WTF log message for testing")
+            
+            // Generate logs with different tags
+            Log.d("NetworkModule", "Network request completed successfully")
+            Log.i("UserModule", "User logged in successfully")
+            Log.w("CacheModule", "Cache miss for key: user_preferences")
+            Log.e("DatabaseModule", "Database connection failed")
+            
+            // Generate some random logs
+            repeat(10) { i ->
+                delay(50)
+                Log.d("RandomModule", "Random log message number $i")
+            }
+            
+            Toast.makeText(this@MainActivity, "Generated test logs! Check the Logcat Viewer in the debug drawer.", Toast.LENGTH_LONG).show()
         }
     }
 

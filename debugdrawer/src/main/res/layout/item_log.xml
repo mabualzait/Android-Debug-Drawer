@@ -2,69 +2,70 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="2dp"
+    android:layout_marginBottom="1dp"
     android:orientation="vertical"
-    android:padding="8dp"
-    android:background="@android:color/white"
-    android:elevation="1dp">
+    android:padding="4dp"
+    android:background="@android:color/black">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="8dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:id="@+id/tv_timestamp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="12:34:56.789"
-                android:textSize="10sp"
-                android:textColor="@android:color/darker_gray"
-                android:layout_marginEnd="8dp" />
-
-            <TextView
-                android:id="@+id/tv_level"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="D"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:layout_marginEnd="8dp" />
-
-            <TextView
-                android:id="@+id/tv_tag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TAG"
-                android:textSize="12sp"
-                android:textColor="@android:color/holo_blue_dark"
-                android:layout_marginEnd="8dp" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
-
-        </LinearLayout>
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
         <TextView
-            android:id="@+id/tv_message"
-            android:layout_width="match_parent"
+            android:id="@+id/tv_timestamp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Log message content"
-            android:textSize="12sp"
-            android:textColor="@android:color/black"
-            android:layout_marginTop="2dp"
-            android:maxLines="3"
-            android:ellipsize="end" />
+            android:text="12:34:56.789"
+            android:textSize="9sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginEnd="4dp" />
+
+        <TextView
+            android:id="@+id/tv_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="D"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:layout_marginEnd="4dp" />
+
+        <TextView
+            android:id="@+id/tv_pid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1234"
+            android:textSize="9sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginEnd="4dp" />
+
+        <TextView
+            android:id="@+id/tv_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TAG"
+            android:textSize="10sp"
+            android:textColor="@android:color/holo_blue_light"
+            android:layout_marginEnd="4dp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log message content"
+        android:textSize="10sp"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="2dp"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:fontFamily="monospace" />
 
 </LinearLayout>
