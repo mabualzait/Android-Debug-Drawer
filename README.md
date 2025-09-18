@@ -7,7 +7,11 @@
 [![Android](https://img.shields.io/badge/Platform-Android-green.svg)](https://developer.android.com/)
 [![Kotlin](https://img.shields.io/badge/Language-Kotlin-blue.svg)](https://kotlinlang.org/)
 
-A **comprehensive, production-ready debug drawer for Android apps** that provides developers with powerful debugging tools directly within their applications. Created by **Malik Abualzait**, this library overlays your app in debug builds and offers modular debugging capabilities including app inspection, network monitoring, feature flag management, and more—all without leaving your app.
+A **comprehensive, production-ready debug drawer for Android apps** that provides developers with powerful debugging tools directly within their applications. 
+
+**Stop switching between your app and external debugging tools.** This library gives you everything you need for debugging right inside your app - real-time logcat streaming, network request monitoring, feature flag toggles, app inspection, and more. Perfect for QA testing, development debugging, and production troubleshooting.
+
+**Built by developers, for developers.** Created by **Malik Abualzait** with a focus on simplicity, performance, and extensibility.
 
 ## 🎯 Why Android Debug Drawer?
 
@@ -31,14 +35,23 @@ A **comprehensive, production-ready debug drawer for Android apps** that provide
 
 ## 🌟 Features
 
-The drawer is **modular**, allowing developers to add or remove widgets. Built-in modules include:
+### 🔧 **Modular Architecture**
+Pick and choose only the debugging tools you need. Each module is independent and can be added/removed dynamically.
 
-- **📱 App & Device Info** - Display application and device information
-- **🌐 Network Logs** - View HTTP request and response logs with timing
-- **🚩 Feature Flags** - Toggle feature flags at runtime for testing
-- **📋 Logs Viewer** - Browse system and application logs with filtering
-- **⚙️ Settings Override** - Override app settings for testing
-- **📋 Clipboard Tools** - Copy and paste text for debugging
+### 📱 **Built-in Debug Modules**
+
+- **📱 App & Device Info** - View app version, device model, Android version, and build details
+- **🌐 Network Monitoring** - Real-time HTTP request/response logging with headers, timing, and status codes
+- **📋 Advanced Logcat Viewer** - Stream system and app logs with real-time filtering, search, and export
+- **🚩 Feature Flags** - Toggle features at runtime with persistent storage across app restarts
+- **⚙️ Settings Override** - Modify app settings on-the-fly for testing different configurations
+- **📋 Clipboard Tools** - Copy/paste utilities for testing text input scenarios
+
+### 🚀 **Developer Experience**
+- **Zero Performance Impact** - Automatically disabled in release builds
+- **Real-time Updates** - Live log streaming and network monitoring
+- **Easy Integration** - Works with existing Hilt/DI setup
+- **Extensible** - Create custom modules for your specific needs
 
 ## 🛠️ Tech Stack
 
@@ -64,31 +77,9 @@ The Android Debug Drawer is designed to be simple to integrate and use. Follow t
 
 ### 1. Installation
 
-#### Option A: Clone and Include as Module (Recommended)
+#### 🚀 **Quick Start (JitPack - Recommended)**
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/mabualzait/Android-Debug-Drawer.git
-   ```
-
-2. **Add to your project:**
-   - Copy the `debugdrawer` folder to your project root
-   - Add to your `settings.gradle.kts`:
-     ```kotlin
-     include(":debugdrawer")
-     ```
-
-3. **Add dependency in your app's `build.gradle.kts`:**
-   ```kotlin
-   dependencies {
-       debugImplementation project(":debugdrawer")
-   }
-   ```
-
-#### Option B: JitPack (Recommended)
-
-Add JitPack to your project's `build.gradle.kts` (project level):
-
+Add to your project's `build.gradle.kts` (project level):
 ```kotlin
 allprojects {
     repositories {
@@ -99,8 +90,7 @@ allprojects {
 }
 ```
 
-Then add the dependency to your app's `build.gradle.kts`:
-
+Add to your app's `build.gradle.kts`:
 ```kotlin
 dependencies {
     debugImplementation 'com.abualzait:debugdrawer:1.0.0'
@@ -110,28 +100,34 @@ dependencies {
 **Available versions:**
 - `1.0.0` - Latest stable release
 - `main-SNAPSHOT` - Latest development version
-- `v1.0.0` - Specific tag version
 
-### 📱 Download Latest APK
+#### 🔧 **Local Development (Clone as Module)**
 
-Want to try the Android Debug Drawer without building from source? Download the latest APK directly:
+For contributing or custom modifications:
 
-[![Download APK](https://img.shields.io/badge/Download-Latest%20APK-brightgreen.svg?style=for-the-badge&logo=android)](https://github.com/mabualzait/Android-Debug-Drawer/actions/workflows/ci.yml)
+1. **Clone and integrate:**
+   ```bash
+   git clone https://github.com/mabualzait/Android-Debug-Drawer.git
+   # Copy debugdrawer folder to your project root
+   ```
 
-**How to download:**
-1. Click the "Download APK" button above
-2. Go to the latest successful workflow run
-3. Scroll down to "Artifacts" section
-4. Download the `apk` artifact
-5. Install on your Android device
+2. **Add to `settings.gradle.kts`:**
+   ```kotlin
+   include(":debugdrawer")
+   ```
 
-**Note:** The APK is automatically built and updated with every push to any branch, so you'll always get the latest version with all the newest features!
+3. **Add dependency:**
+   ```kotlin
+   dependencies {
+       debugImplementation project(":debugdrawer")
+   }
+   ```
 
-### 2. Basic Setup
 
-#### Step 1: Add Hilt to your project (if not already added)
+### 2. Setup
 
-Add to your app's `build.gradle.kts`:
+#### **Prerequisites**
+Ensure you have Hilt set up in your project. If not, add to your `build.gradle.kts`:
 ```kotlin
 plugins {
     id("com.google.dagger.hilt.android")
@@ -144,8 +140,7 @@ dependencies {
 }
 ```
 
-#### Step 2: Initialize in your Application class
-
+#### **Application Setup**
 ```kotlin
 @HiltAndroidApp
 class MyApplication : Application() {
@@ -154,63 +149,42 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        
-        if (BuildConfig.DEBUG) {
-            // Debug drawer is automatically initialized when first accessed
-        }
+        // Debug drawer auto-initializes when first accessed
     }
 }
 ```
 
-#### Step 3: Set up in your MainActivity
-
+#### **Activity Integration**
 ```kotlin
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     
-    @Inject
-    lateinit var debugDrawer: com.abualzait.debugdrawer.DebugDrawer
-    
-    @Inject
-    lateinit var appInfoModule: com.abualzait.debugdrawer.modules.AppInfoModule
-    
-    @Inject
-    lateinit var networkModule: com.abualzait.debugdrawer.modules.NetworkModule
-    
-    @Inject
-    lateinit var featureFlagsModule: com.abualzait.debugdrawer.modules.com.abualzait.debugdrawer.modules.FeatureFlagsModule
-    
-    @Inject
-    lateinit var logsModule: com.abualzait.debugdrawer.modules.LogsModule
-    
-    @Inject
-    lateinit var settingsModule: com.abualzait.debugdrawer.modules.com.abualzait.debugdrawer.modules.SettingsModule
-    
-    @Inject
-    lateinit var clipboardModule: com.abualzait.debugdrawer.modules.ClipboardModule
+    @Inject lateinit var debugDrawer: com.abualzait.debugdrawer.DebugDrawer
+    @Inject lateinit var appInfoModule: com.abualzait.debugdrawer.modules.AppInfoModule
+    @Inject lateinit var networkModule: com.abualzait.debugdrawer.modules.NetworkModule
+    @Inject lateinit var logsModule: com.abualzait.debugdrawer.modules.LogsModule
+    @Inject lateinit var featureFlagsModule: com.abualzait.debugdrawer.modules.FeatureFlagsModule
+    @Inject lateinit var settingsModule: com.abualzait.debugdrawer.modules.SettingsModule
+    @Inject lateinit var clipboardModule: com.abualzait.debugdrawer.modules.ClipboardModule
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        
         setupDebugDrawer()
     }
     
     private fun setupDebugDrawer() {
-        // Initialize the debug drawer
         debugDrawer.initialize(this)
         
-        // Add all modules
+        // Add modules (pick only what you need)
         debugDrawer.addModule(appInfoModule)
         debugDrawer.addModule(networkModule)
-        debugDrawer.addModule(featureFlagsModule)
         debugDrawer.addModule(logsModule)
+        debugDrawer.addModule(featureFlagsModule)
         debugDrawer.addModule(settingsModule)
         debugDrawer.addModule(clipboardModule)
-    }
-    
-    // Add a button to toggle the debug drawer
-    private fun setupToggleButton() {
+        
+        // Add toggle button
         findViewById<Button>(R.id.btn_toggle_debug)?.setOnClickListener {
             debugDrawer.toggle()
         }
@@ -218,78 +192,68 @@ class MainActivity : AppCompatActivity() {
 }
 ```
 
-### 3. Using the Debug Drawer
+### 3. Usage
 
-#### Opening the Debug Drawer
-
-- **Programmatically:** Call `debugDrawer.toggle()` or `debugDrawer.show()`
-- **Via Button:** Add a button in your UI to toggle the drawer
-- **Via Gesture:** Implement custom gestures (e.g., shake detection)
-
-#### Available Modules
-
-1. **📱 App & Device Info**
-   - View app name, version, package name
-   - Display device model, Android version, build info
-   - Useful for QA testing and bug reports
-
-2. **🌐 Network Logs**
-   - Monitor HTTP requests and responses
-   - View request/response headers and body
-   - Track response times and status codes
-   - Filter by method, status, or time
-
-3. **🚩 Feature Flags**
-   - Toggle feature flags at runtime
-   - Persist flag states across app restarts
-   - Test different feature combinations
-   - A/B testing support
-
-4. **📋 Logs Viewer**
-   - Browse system and application logs
-   - Filter by log level (Verbose, Debug, Info, Warning, Error)
-   - Search through log messages
-   - Export logs for debugging
-
-5. **⚙️ Settings Override**
-   - Modify app settings at runtime
-   - Test different configuration values
-   - Persist settings across sessions
-   - API endpoints, timeouts, feature toggles
-
-6. **📋 Clipboard Tools**
-   - Copy text to clipboard
-   - Paste from clipboard
-   - View current clipboard content
-   - Useful for testing text input scenarios
-
-### 4. Advanced Configuration
-
-#### Customizing Modules
-
+#### **Opening the Debug Drawer**
 ```kotlin
-// Add only specific modules
-debugDrawer.addModule(appInfoModule)
-debugDrawer.addModule(networkModule)
+// Programmatically
+debugDrawer.toggle()  // Show/hide
+debugDrawer.show()    // Show only
+debugDrawer.hide()    // Hide only
 
-// Remove a module
-debugDrawer.removeModule(logsModule)
-
-// Check if drawer is visible
-if (debugDrawer.isVisible()) {
-    // Handle drawer visibility
+// Via UI button
+findViewById<Button>(R.id.btn_toggle_debug)?.setOnClickListener {
+    debugDrawer.toggle()
 }
 ```
 
-#### Network Logging Setup
+#### **Module Overview**
 
-To enable network request logging, add the NetworkInterceptor to your OkHttpClient:
+| Module | Purpose | Key Features |
+|--------|---------|--------------|
+| **📱 App Info** | App & device inspection | Version, package, device model, Android version |
+| **🌐 Network** | HTTP monitoring | Request/response logging, timing, status codes |
+| **📋 Logcat** | Real-time log streaming | Live filtering, search, export, auto-scroll |
+| **🚩 Feature Flags** | Runtime feature toggles | Persistent storage, A/B testing support |
+| **⚙️ Settings** | Configuration override | Runtime settings modification |
+| **📋 Clipboard** | Text utilities | Copy/paste for testing scenarios |
 
+#### **Real-world Use Cases**
+
+**🔍 Development Debugging:**
+- Monitor network requests during API development
+- Stream logs in real-time without switching to external tools
+- Toggle features instantly for testing different flows
+
+**🧪 QA Testing:**
+- Inspect app version and device info for bug reports
+- Test feature combinations with flag toggles
+- Override settings to test edge cases
+
+**🐛 Production Troubleshooting:**
+- Enable debug drawer in debug builds for customer support
+- Export logs for analysis
+- Monitor network issues in real-time
+
+### 4. Advanced Usage
+
+#### **Module Management**
+```kotlin
+// Add/remove modules dynamically
+debugDrawer.addModule(customModule)
+debugDrawer.removeModule(logsModule)
+
+// Check drawer state
+if (debugDrawer.isVisible()) {
+    // Handle visibility
+}
+```
+
+#### **Network Monitoring Setup**
 ```kotlin
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    
     @Provides
     @Singleton
     fun provideOkHttpClient(networkInterceptor: NetworkInterceptor): OkHttpClient {
@@ -300,31 +264,34 @@ object NetworkModule {
 }
 ```
 
-#### Feature Flags Integration
-
+#### **Feature Flags Integration**
 ```kotlin
 @Inject
 lateinit var featureFlagsModule: com.abualzait.debugdrawer.modules.FeatureFlagsModule
 
-// Check if a feature is enabled
+// Check feature state
 lifecycleScope.launch {
-    val isNewUIEnabled = featureFlagsModule.isFeatureEnabled("enable_new_ui")
-    if (isNewUIEnabled) {
-        // Show new UI
+    val isEnabled = featureFlagsModule.isFeatureEnabled("new_feature")
+    if (isEnabled) {
+        // Enable new feature
     }
 }
 ```
 
-#### Settings Integration
-
+#### **Custom Modules**
 ```kotlin
-@Inject
-lateinit var settingsModule: com.abualzait.debugdrawer.modules.SettingsModule
-
-// Get a setting value
-lifecycleScope.launch {
-    val apiUrl = settingsModule.getSettingValue("api_base_url")
-    // Use the setting value
+class CustomModule @Inject constructor(
+    private val context: Context
+) : DebugModule {
+    
+    override val name = "custom"
+    override val title = "Custom Module"
+    override val description = "My custom debugging tool"
+    
+    override fun createView(): View {
+        return LayoutInflater.from(context)
+            .inflate(R.layout.custom_module_layout, null)
+    }
 }
 ```
 
@@ -365,77 +332,6 @@ android-debug-drawer/
 └── settings.gradle.kts
 ```
 
-## 🔧 Configuration
-
-### Customizing Modules
-
-You can customize which modules are shown by adding or removing them:
-
-```kotlin
-// Add only specific modules
-debugDrawer.addModule(appInfoModule)
-debugDrawer.addModule(networkModule)
-
-// Remove a module
-debugDrawer.removeModule(logsModule)
-```
-
-### Creating Custom Modules
-
-Create your own debug module by implementing the `DebugModule` interface:
-
-```kotlin
-class CustomModule @Inject constructor(
-    private val context: Context,
-    private val logger: Logger
-) : DebugModule {
-    
-    override val name: String = "custom_module"
-    override val title: String = "Custom Module"
-    override val description: String = "My custom debugging module"
-    override val priority: Int = 10
-    
-    override fun createView(): View {
-        // Create and return your custom view
-        return LayoutInflater.from(context)
-            .inflate(R.layout.custom_module_layout, null)
-    }
-    
-    // Implement other interface methods as needed
-}
-```
-
-### Feature Flags
-
-Feature flags are automatically persisted using DataStore. Access them in your app:
-
-```kotlin
-@Inject
-lateinit var featureFlagsModule: com.abualzait.debugdrawer.modules.FeatureFlagsModule
-
-// Check if a feature is enabled
-lifecycleScope.launch {
-    val isNewUIEnabled = featureFlagsModule.isFeatureEnabled("enable_new_ui")
-    if (isNewUIEnabled) {
-        // Show new UI
-    }
-}
-```
-
-### Settings Override
-
-Settings are also persisted using DataStore:
-
-```kotlin
-@Inject
-lateinit var settingsModule: com.abualzait.debugdrawer.modules.SettingsModule
-
-// Get a setting value
-lifecycleScope.launch {
-    val apiUrl = settingsModule.getSettingValue("api_base_url")
-    // Use the setting value
-}
-```
 
 ## 🧪 Testing
 
@@ -513,7 +409,21 @@ Check out the sample app included in this repository to see the Android Debug Dr
 
 ## 📸 Screenshots
 
-*Screenshots coming soon - showing the debug drawer interface and various modules*
+### Main Interface
+![Debug Drawer Main Menu](Screenshot%20/Screenshot_20250918_114543_Debug%20Drawer%20Sample.png)
+*Main debug drawer interface with module selection grid*
+
+### Logcat Viewer
+![Logcat Viewer](Screenshot%20/Screenshot_20250918_114555_Debug%20Drawer%20Sample.png)
+*Enhanced logcat viewer with real-time streaming and filtering*
+
+### Network Monitoring
+![Network Module](Screenshot%20/Screenshot_20250918_114606_Debug%20Drawer%20Sample.png)
+*Network request monitoring and logging*
+
+### App Information
+![App Info Module](Screenshot%20/Screenshot_20250918_114617_Debug%20Drawer%20Sample.png)
+*App and device information display*
 
 ## 🚀 Roadmap
 
