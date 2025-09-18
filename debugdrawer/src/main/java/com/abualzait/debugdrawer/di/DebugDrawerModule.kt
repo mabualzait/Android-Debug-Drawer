@@ -2,6 +2,8 @@ package com.abualzait.debugdrawer.di
 
 import android.content.Context
 import com.abualzait.debugdrawer.DebugDrawer
+import com.abualzait.debugdrawer.DebugDrawerAutoSetup
+import com.abualzait.debugdrawer.DebugDrawerInitializer
 import com.abualzait.debugdrawer.modules.AppInfoModule
 import com.abualzait.debugdrawer.modules.ClipboardModule
 import com.abualzait.debugdrawer.modules.FeatureFlagsModule
@@ -78,4 +80,32 @@ object DebugDrawerModule {
         @ApplicationContext context: Context,
         logger: Logger,
     ): ClipboardModule = ClipboardModule(context, logger)
+
+    @Provides
+    @Singleton
+    fun provideDebugDrawerAutoSetup(
+        logger: Logger,
+        appInfoModule: AppInfoModule,
+        networkModule: NetworkModule,
+        featureFlagsModule: FeatureFlagsModule,
+        logsModule: LogsModule,
+        settingsModule: SettingsModule,
+        clipboardModule: ClipboardModule,
+    ): DebugDrawerAutoSetup = DebugDrawerAutoSetup(
+        logger,
+        appInfoModule,
+        networkModule,
+        featureFlagsModule,
+        logsModule,
+        settingsModule,
+        clipboardModule,
+    )
+
+    @Provides
+    @Singleton
+    fun provideDebugDrawerInitializer(
+        autoSetup: DebugDrawerAutoSetup,
+        logger: Logger,
+    ): DebugDrawerInitializer = DebugDrawerInitializer(autoSetup, logger)
+
 }

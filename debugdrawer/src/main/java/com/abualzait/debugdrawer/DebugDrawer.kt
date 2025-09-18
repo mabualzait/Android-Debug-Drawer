@@ -115,12 +115,12 @@ internal class DebugOverlay(
     private var currentModule: DebugModule? = null
     private var moduleAdapter: DebugModuleAdapter? = null
 
-    fun addModule(module: DebugModule) {
+    fun addModule(_module: DebugModule) {
         // Module will be added to the adapter when it's shown
         moduleAdapter?.notifyDataSetChanged()
     }
 
-    fun removeModule(module: DebugModule) {
+    fun removeModule(_module: DebugModule) {
         // Module will be removed from the adapter when it's shown
         moduleAdapter?.notifyDataSetChanged()
     }
