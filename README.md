@@ -2,7 +2,6 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![CI](https://github.com/mabualzait/Android-Debug-Drawer/workflows/CI/badge.svg)](https://github.com/mabualzait/Android-Debug-Drawer/actions)
-[![Maven Central](https://img.shields.io/maven-central/v/com.abualzait/debugdrawer.svg)](https://search.maven.org/artifact/com.abualzait/debugdrawer)
 [![JitPack](https://jitpack.io/v/mabualzait/Android-Debug-Drawer.svg)](https://jitpack.io/#mabualzait/Android-Debug-Drawer)
 [![ktlint](https://img.shields.io/badge/code%20style-%E2%9D%A4-FF4081.svg)](https://ktlint.github.io/)
 [![Android](https://img.shields.io/badge/Platform-Android-green.svg)](https://developer.android.com/)
@@ -78,28 +77,7 @@ The Android Debug Drawer is designed to be simple to integrate and use. Follow t
 
 ### 1. Installation
 
-#### 🚀 **Maven Central (Recommended)**
-
-Add to your project's `build.gradle.kts` (project level):
-```kotlin
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-```
-
-Add to your app's `build.gradle.kts`:
-```kotlin
-dependencies {
-    debugImplementation("com.abualzait:debugdrawer:1.2.3")
-}
-```
-
-#### 📦 **JitPack (Alternative)**
-
-If Maven Central is not available, you can use JitPack:
+#### 🚀 **JitPack (Recommended)**
 
 Add to your project's `build.gradle.kts` (project level):
 ```kotlin
@@ -115,14 +93,13 @@ allprojects {
 Add to your app's `build.gradle.kts`:
 ```kotlin
 dependencies {
-    debugImplementation("com.github.mabualzait:Android-Debug-Drawer:1.2.3")
+    debugImplementation("com.github.mabualzait:Android-Debug-Drawer:1.2.4")
 }
 ```
 
 **Available versions:**
-- `1.2.3` - Latest stable release (Maven Central)
-- `v1.2.3` - Latest stable release (JitPack)
-- `main-SNAPSHOT` - Latest development version (JitPack)
+- `1.2.4` - Latest stable release
+- `main-SNAPSHOT` - Latest development version
 
 #### 🔧 **Local Development (Clone as Module)**
 
