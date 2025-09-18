@@ -18,6 +18,17 @@ A **comprehensive, production-ready debug drawer for Android apps** that provide
 - **⚡ High Performance** - Lightweight with minimal impact on app performance
 - **🧪 Well Tested** - Comprehensive test coverage with CI/CD pipeline
 
+## ⚡ Quick Start
+
+**Want to try it right now?** Download the latest APK and install it on your device:
+
+[![Download APK](https://img.shields.io/badge/Download-Latest%20APK-brightgreen.svg?style=for-the-badge&logo=android)](https://github.com/mabualzait/Android-Debug-Drawer/actions/workflows/ci.yml)
+
+1. Click the button above → Go to latest workflow run → Download APK artifact
+2. Install on your Android device
+3. Open the app and tap "Toggle Debug Drawer"
+4. Explore all the debugging modules!
+
 ## 🌟 Features
 
 The drawer is **modular**, allowing developers to add or remove widgets. Built-in modules include:
@@ -100,6 +111,21 @@ dependencies {
 - `1.0.0` - Latest stable release
 - `main-SNAPSHOT` - Latest development version
 - `v1.0.0` - Specific tag version
+
+### 📱 Download Latest APK
+
+Want to try the Android Debug Drawer without building from source? Download the latest APK directly:
+
+[![Download APK](https://img.shields.io/badge/Download-Latest%20APK-brightgreen.svg?style=for-the-badge&logo=android)](https://github.com/mabualzait/Android-Debug-Drawer/actions/workflows/ci.yml)
+
+**How to download:**
+1. Click the "Download APK" button above
+2. Go to the latest successful workflow run
+3. Scroll down to "Artifacts" section
+4. Download the `apk` artifact
+5. Install on your Android device
+
+**Note:** The APK is automatically built and updated with every push to any branch, so you'll always get the latest version with all the newest features!
 
 ### 2. Basic Setup
 
@@ -487,7 +513,21 @@ Check out the sample app included in this repository to see the Android Debug Dr
 
 ## 📸 Screenshots
 
-*Screenshots coming soon - showing the debug drawer interface and various modules*
+### Main Interface
+![Debug Drawer Main Menu](screenshots/Screenshot_20250918_114543_Debug%20Drawer%20Sample.png)
+*Main debug drawer interface with module selection grid*
+
+### Logcat Viewer
+![Logcat Viewer](screenshots/Screenshot_20250918_114555_Debug%20Drawer%20Sample.png)
+*Enhanced logcat viewer with real-time streaming and filtering*
+
+### Network Monitoring
+![Network Module](screenshots/Screenshot_20250918_114606_Debug%20Drawer%20Sample.png)
+*Network request monitoring and logging*
+
+### App Information
+![App Info Module](screenshots/Screenshot_20250918_114617_Debug%20Drawer%20Sample.png)
+*App and device information display*
 
 ## 🚀 Roadmap
 
