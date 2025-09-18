@@ -513,21 +513,7 @@ Check out the sample app included in this repository to see the Android Debug Dr
 
 ## 📸 Screenshots
 
-### Main Interface
-![Debug Drawer Main Menu](screenshots/Screenshot_20250918_114543_Debug%20Drawer%20Sample.png)
-*Main debug drawer interface with module selection grid*
-
-### Logcat Viewer
-![Logcat Viewer](screenshots/Screenshot_20250918_114555_Debug%20Drawer%20Sample.png)
-*Enhanced logcat viewer with real-time streaming and filtering*
-
-### Network Monitoring
-![Network Module](screenshots/Screenshot_20250918_114606_Debug%20Drawer%20Sample.png)
-*Network request monitoring and logging*
-
-### App Information
-![App Info Module](screenshots/Screenshot_20250918_114617_Debug%20Drawer%20Sample.png)
-*App and device information display*
+*Screenshots coming soon - showing the debug drawer interface and various modules*
 
 ## 🚀 Roadmap
 
