@@ -126,8 +126,9 @@ For contributing or custom modifications:
 
 ### 2. Setup
 
-#### **Prerequisites**
-Ensure you have Hilt set up in your project. If not, add to your `build.gradle.kts`:
+#### **🚀 Super Simple Integration (Recommended)**
+
+**Step 1:** Add Hilt to your project (if not already added):
 ```kotlin
 plugins {
     id("com.google.dagger.hilt.android")
@@ -140,70 +141,96 @@ dependencies {
 }
 ```
 
-#### **Application Setup**
+**Step 2:** Update your Application class:
+```kotlin
+@HiltAndroidApp
+class MyApplication : com.abualzait.debugdrawer.DebugDrawerApplication() {
+    // That's it! No additional code needed!
+}
+```
+
+**Step 3:** Your MainActivity requires ZERO debug drawer code:
+```kotlin
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        // No debug drawer setup needed!
+    }
+}
+```
+
+**🎉 Done!** The debug drawer is now automatically available with:
+- **Gesture activation:** Long press or double tap anywhere on screen
+- **All modules included:** App info, network monitoring, logcat, feature flags, settings, clipboard
+- **Auto-initialization:** Works across all activities
+- **Zero boilerplate:** No manual setup required
+
+#### **✨ What Changed - Developer Experience Revolution**
+
+| **Before (Old Way)** | **After (New Way)** |
+|---------------------|-------------------|
+| ❌ 6+ @Inject declarations | ✅ 0 declarations needed |
+| ❌ Manual initialization | ✅ Automatic initialization |
+| ❌ Manual module registration | ✅ Auto-registered modules |
+| ❌ Manual cleanup in onDestroy | ✅ Automatic cleanup |
+| ❌ 20+ lines of setup code | ✅ 1 line: extend DebugDrawerApplication |
+| ❌ Button required for activation | ✅ Gesture-based activation |
+| ❌ Complex integration | ✅ True plug-and-play |
+
+#### **🔧 Advanced Integration (Optional)**
+
+If you need custom control, you can still use the traditional approach:
+
 ```kotlin
 @HiltAndroidApp
 class MyApplication : Application() {
     @Inject
-    lateinit var debugDrawer: com.abualzait.debugdrawer.DebugDrawer
+    lateinit var debugDrawerInitializer: com.abualzait.debugdrawer.DebugDrawerInitializer
 
     override fun onCreate() {
         super.onCreate()
-        // Debug drawer auto-initializes when first accessed
+        debugDrawerInitializer.initializeIfEnabled(this)
     }
 }
 ```
 
-#### **Activity Integration**
-```kotlin
-@AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-    
-    @Inject lateinit var debugDrawer: com.abualzait.debugdrawer.DebugDrawer
-    @Inject lateinit var appInfoModule: com.abualzait.debugdrawer.modules.AppInfoModule
-    @Inject lateinit var networkModule: com.abualzait.debugdrawer.modules.NetworkModule
-    @Inject lateinit var logsModule: com.abualzait.debugdrawer.modules.LogsModule
-    @Inject lateinit var featureFlagsModule: com.abualzait.debugdrawer.modules.FeatureFlagsModule
-    @Inject lateinit var settingsModule: com.abualzait.debugdrawer.modules.SettingsModule
-    @Inject lateinit var clipboardModule: com.abualzait.debugdrawer.modules.ClipboardModule
+#### **🎮 Manual Control (When Needed)**
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setupDebugDrawer()
-    }
-    
-    private fun setupDebugDrawer() {
-        debugDrawer.initialize(this)
-        
-        // Add modules (pick only what you need)
-        debugDrawer.addModule(appInfoModule)
-        debugDrawer.addModule(networkModule)
-        debugDrawer.addModule(logsModule)
-        debugDrawer.addModule(featureFlagsModule)
-        debugDrawer.addModule(settingsModule)
-        debugDrawer.addModule(clipboardModule)
-        
-        // Add toggle button
-        findViewById<Button>(R.id.btn_toggle_debug)?.setOnClickListener {
-            debugDrawer.toggle()
-        }
-    }
-}
+```kotlin
+// Show/hide programmatically
+com.abualzait.debugdrawer.DebugDrawerUtils.toggle(context)
+com.abualzait.debugdrawer.DebugDrawerUtils.show(context)
+com.abualzait.debugdrawer.DebugDrawerUtils.hide(context)
+
+// Check visibility
+val isVisible = com.abualzait.debugdrawer.DebugDrawerUtils.isVisible(context)
 ```
 
 ### 3. Usage
 
-#### **Opening the Debug Drawer**
-```kotlin
-// Programmatically
-debugDrawer.toggle()  // Show/hide
-debugDrawer.show()    // Show only
-debugDrawer.hide()    // Hide only
+#### **🎮 Activation Methods**
 
-// Via UI button
+**Automatic Gestures (Zero Code Required):**
+- **Long press** anywhere on the screen
+- **Double tap** anywhere on the screen
+
+**Programmatic Control (When Needed):**
+```kotlin
+// Show/hide programmatically
+com.abualzait.debugdrawer.DebugDrawerUtils.toggle(context)
+com.abualzait.debugdrawer.DebugDrawerUtils.show(context)
+com.abualzait.debugdrawer.DebugDrawerUtils.hide(context)
+
+// Check visibility
+val isVisible = com.abualzait.debugdrawer.DebugDrawerUtils.isVisible(context)
+```
+
+**UI Button (Optional):**
+```kotlin
 findViewById<Button>(R.id.btn_toggle_debug)?.setOnClickListener {
-    debugDrawer.toggle()
+    com.abualzait.debugdrawer.DebugDrawerUtils.toggle(this)
 }
 ```
 

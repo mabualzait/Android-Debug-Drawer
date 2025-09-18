@@ -6,12 +6,8 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.abualzait.debugdrawer.DebugDrawer
-import com.abualzait.debugdrawer.modules.AppInfoModule
-import com.abualzait.debugdrawer.modules.ClipboardModule
+import com.abualzait.debugdrawer.DebugDrawerUtils
 import com.abualzait.debugdrawer.modules.FeatureFlagsModule
-import com.abualzait.debugdrawer.modules.LogsModule
-import com.abualzait.debugdrawer.modules.NetworkModule
 import com.abualzait.debugdrawer.modules.SettingsModule
 import com.abualzait.debugdrawer.sampleapp.network.SampleNetworkClient
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,31 +16,22 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * Main activity demonstrating the debug drawer usage.
+ * Main activity demonstrating the new simplified debug drawer integration.
+ * 
+ * With the new auto-setup system, this activity requires ZERO debug drawer setup code!
+ * The debug drawer is automatically initialized and can be activated by:
+ * - Long pressing anywhere on the screen
+ * - Double tapping anywhere on the screen
+ * - Using the toggle button (for demonstration)
  */
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var debugDrawer: DebugDrawer
-
-    @Inject
-    lateinit var appInfoModule: AppInfoModule
-
-    @Inject
-    lateinit var networkModule: NetworkModule
-
-    @Inject
     lateinit var featureFlagsModule: FeatureFlagsModule
 
     @Inject
-    lateinit var logsModule: LogsModule
-
-    @Inject
     lateinit var settingsModule: SettingsModule
-
-    @Inject
-    lateinit var clipboardModule: ClipboardModule
 
     @Inject
     lateinit var sampleNetworkClient: SampleNetworkClient
@@ -53,26 +40,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setupDebugDrawer()
         setupUI()
     }
 
-    private fun setupDebugDrawer() {
-        // Initialize the debug drawer
-        debugDrawer.initialize(this)
-
-        // Add all modules
-        debugDrawer.addModule(appInfoModule)
-        debugDrawer.addModule(networkModule)
-        debugDrawer.addModule(featureFlagsModule)
-        debugDrawer.addModule(logsModule)
-        debugDrawer.addModule(settingsModule)
-        debugDrawer.addModule(clipboardModule)
-    }
-
     private fun setupUI() {
+        // Toggle button for demonstration (optional - gestures work automatically)
         findViewById<Button>(R.id.btn_toggle_debug_drawer).setOnClickListener {
-            debugDrawer.toggle()
+            DebugDrawerUtils.toggle(this)
         }
 
         findViewById<Button>(R.id.btn_make_network_request).setOnClickListener {
@@ -154,8 +128,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        debugDrawer.destroy()
-    }
 }
