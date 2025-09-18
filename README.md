@@ -93,12 +93,12 @@ allprojects {
 Add to your app's `build.gradle.kts`:
 ```kotlin
 dependencies {
-    debugImplementation("com.github.mabualzait:Android-Debug-Drawer:1.2.4")
+    debugImplementation("com.github.mabualzait:Android-Debug-Drawer:1.2.5")
 }
 ```
 
 **Available versions:**
-- `1.2.4` - Latest stable release
+- `1.2.5` - Latest stable release ✅ (JitPack auto-detection working)
 - `main-SNAPSHOT` - Latest development version
 
 #### 🔧 **Local Development (Clone as Module)**
