@@ -8,6 +8,7 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint")
     id("jacoco")
     id("maven-publish")
+    id("signing")
 }
 
 android {
@@ -116,7 +117,7 @@ jacoco {
     toolVersion = "0.8.11"
 }
 
-// Maven publishing configuration for JitPack
+// Maven Central publishing configuration
 afterEvaluate {
     publishing {
         publications {
@@ -124,37 +125,61 @@ afterEvaluate {
                 from(components["release"])
 
                 groupId = "com.abualzait"
-                artifactId = project.findProperty("POM_ARTIFACT_ID") as String? ?: "debugdrawer"
-                version = project.findProperty("VERSION_NAME") as String? ?: "1.0.0"
+                artifactId = "debugdrawer"
+                version = "1.2.3"
 
                 pom {
-                    name.set(project.findProperty("POM_NAME") as String? ?: "Android Debug Drawer")
-                    description.set(project.findProperty("POM_DESCRIPTION") as String? ?: "A comprehensive, production-ready debug drawer for Android apps")
-                    url.set(project.findProperty("POM_URL") as String? ?: "https://github.com/mabualzait/Android-Debug-Drawer")
+                    name.set("Android Debug Drawer")
+                    description.set("A comprehensive, production-ready debug drawer for Android apps with plug-and-play integration")
+                    url.set("https://github.com/mabualzait/Android-Debug-Drawer")
 
                     licenses {
                         license {
-                            name.set(project.findProperty("POM_LICENCE_NAME") as String? ?: "MIT")
-                            url.set(project.findProperty("POM_LICENCE_URL") as String? ?: "https://opensource.org/licenses/MIT")
-                            distribution.set(project.findProperty("POM_LICENCE_DIST") as String? ?: "repo")
+                            name.set("MIT")
+                            url.set("https://opensource.org/licenses/MIT")
+                            distribution.set("repo")
                         }
                     }
 
                     developers {
                         developer {
-                            id.set(project.findProperty("POM_DEVELOPER_ID") as String? ?: "mabualzait")
-                            name.set(project.findProperty("POM_DEVELOPER_NAME") as String? ?: "Malik Abualzait")
-                            url.set(project.findProperty("POM_DEVELOPER_URL") as String? ?: "https://github.com/mabualzait")
+                            id.set("mabualzait")
+                            name.set("Malik Abualzait")
+                            email.set("malik.abualzait@gmail.com")
+                            url.set("https://github.com/mabualzait")
                         }
                     }
 
                     scm {
-                        url.set(project.findProperty("POM_SCM_URL") as String? ?: "https://github.com/mabualzait/Android-Debug-Drawer")
-                        connection.set(project.findProperty("POM_SCM_CONNECTION") as String? ?: "scm:git:git://github.com/mabualzait/Android-Debug-Drawer.git")
-                        developerConnection.set(project.findProperty("POM_SCM_DEV_CONNECTION") as String? ?: "scm:git:ssh://github.com/mabualzait/Android-Debug-Drawer.git")
+                        url.set("https://github.com/mabualzait/Android-Debug-Drawer")
+                        connection.set("scm:git:git://github.com/mabualzait/Android-Debug-Drawer.git")
+                        developerConnection.set("scm:git:ssh://github.com/mabualzait/Android-Debug-Drawer.git")
                     }
                 }
             }
         }
+
+        repositories {
+            maven {
+                name = "sonatype"
+                url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+                credentials {
+                    username = project.findProperty("sonatypeUsername") as String?
+                    password = project.findProperty("sonatypePassword") as String?
+                }
+            }
+        }
+    }
+}
+
+// Signing configuration for Maven Central
+signing {
+    val signingKeyId = project.findProperty("signingKeyId") as String?
+    val signingKey = project.findProperty("signingKey") as String?
+    val signingPassword = project.findProperty("signingPassword") as String?
+    
+    if (signingKeyId != null && signingKey != null && signingPassword != null) {
+        useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+        sign(publishing.publications)
     }
 }
