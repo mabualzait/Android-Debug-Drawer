@@ -45,13 +45,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Test Settings"
+        android:layout_marginBottom="16dp"
+        style="@style/Widget.Material3.Button.OutlinedButton" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_generate_test_logs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Generate Test Logs"
         android:layout_marginBottom="32dp"
         style="@style/Widget.Material3.Button.OutlinedButton" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Instructions:\n1. Tap 'Toggle Debug Drawer' to show/hide the debug drawer\n2. Use the debug drawer to inspect app info, network logs, feature flags, etc.\n3. Make network requests to see them logged in the Network module\n4. Toggle feature flags and test settings to see them in action"
+        android:text="Instructions:\n1. Tap 'Toggle Debug Drawer' to show/hide the debug drawer\n2. Use the debug drawer to inspect app info, network logs, feature flags, etc.\n3. Make network requests to see them logged in the Network module\n4. Toggle feature flags and test settings to see them in action\n5. Generate test logs to see them in the Logcat Viewer\n6. Use the Logcat Viewer to filter and search through logs"
         android:textSize="14sp"
         android:textColor="@android:color/darker_gray"
         android:lineSpacingExtra="4dp" />

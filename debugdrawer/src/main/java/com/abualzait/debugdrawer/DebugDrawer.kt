@@ -1,9 +1,14 @@
 package com.abualzait.debugdrawer
 
 import android.app.Activity
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.GridView
+import android.widget.LinearLayout
+import com.abualzait.debugdrawer.R
+import com.abualzait.debugdrawer.adapter.DebugModuleAdapter
 import com.abualzait.debugdrawer.modules.DebugModule
 import com.abualzait.debugdrawer.utils.Logger
 import javax.inject.Inject
@@ -20,6 +25,7 @@ class DebugDrawer @Inject constructor(
     private var isInitialized = false
     private var debugOverlay: DebugOverlay? = null
     private val modules = mutableListOf<DebugModule>()
+    private var currentModule: DebugModule? = null
 
     /**
      * Initialize the debug drawer with the given activity.
@@ -103,15 +109,20 @@ internal class DebugOverlay(
     private val modules: MutableList<DebugModule>,
 ) {
     private var overlayView: View? = null
-    private var drawerContainer: View? = null
+    private var mainMenuView: View? = null
+    private var moduleView: View? = null
     private var isVisible = false
+    private var currentModule: DebugModule? = null
+    private var moduleAdapter: DebugModuleAdapter? = null
 
     fun addModule(module: DebugModule) {
-        // Module will be added to the drawer when it's shown
+        // Module will be added to the adapter when it's shown
+        moduleAdapter?.notifyDataSetChanged()
     }
 
     fun removeModule(module: DebugModule) {
-        // Module will be removed from the drawer when it's shown
+        // Module will be removed from the adapter when it's shown
+        moduleAdapter?.notifyDataSetChanged()
     }
 
     fun show() {
@@ -122,6 +133,7 @@ internal class DebugOverlay(
             val rootView = activity.findViewById<ViewGroup>(android.R.id.content)
             rootView.addView(view)
             isVisible = true
+            showMainMenu()
             android.util.Log.d("DebugDrawer", "Debug drawer shown with ${modules.size} modules")
         }
     }
@@ -143,7 +155,10 @@ internal class DebugOverlay(
     fun destroy() {
         hide()
         overlayView = null
-        drawerContainer = null
+        mainMenuView = null
+        moduleView = null
+        moduleAdapter = null
+        currentModule = null
     }
 
     private fun createOverlayView() {
@@ -155,50 +170,58 @@ internal class DebugOverlay(
             )
         }
 
-        // Set up the drawer container
-        drawerContainer = overlayView?.findViewById(R.id.debug_drawer_container)
-
-        // Add modules to the drawer
-        setupModules()
-
-        // Set up close button
-        overlayView?.findViewById<View>(R.id.btn_close_drawer)?.setOnClickListener {
-            hide()
-        }
-
         // Set up overlay click to close
         overlayView?.findViewById<View>(R.id.debug_overlay_background)?.setOnClickListener {
             hide()
         }
     }
 
-    private fun setupModules() {
-        val modulesContainer = drawerContainer?.findViewById<android.widget.LinearLayout>(R.id.ll_modules_container)
-        modulesContainer?.removeAllViews()
+    private fun showMainMenu() {
+        val inflater = activity.layoutInflater
+        mainMenuView = inflater.inflate(R.layout.debug_drawer_main_menu, null)
+        
+        val drawerContainer = overlayView?.findViewById<ViewGroup>(R.id.debug_drawer_container)
+        drawerContainer?.removeAllViews()
+        drawerContainer?.addView(mainMenuView)
 
-        android.util.Log.d("DebugDrawer", "Setting up ${modules.size} modules")
-        modules.forEach { module ->
-            android.util.Log.d("DebugDrawer", "Adding module: ${module.name}")
-            val moduleView = createModuleView(module)
-            modulesContainer?.addView(moduleView)
+        // Set up modules grid
+        val modulesGrid = mainMenuView?.findViewById<GridView>(R.id.gv_modules)
+        moduleAdapter = DebugModuleAdapter(activity, modules) { module ->
+            showModule(module)
+        }
+        modulesGrid?.adapter = moduleAdapter
+
+        // Set up close button
+        mainMenuView?.findViewById<View>(R.id.btn_close_drawer)?.setOnClickListener {
+            hide()
         }
     }
 
-    private fun createModuleView(module: DebugModule): View {
+    private fun showModule(module: DebugModule) {
+        currentModule = module
         val inflater = activity.layoutInflater
-        val moduleContainer = inflater.inflate(R.layout.debug_module_container, null)
+        moduleView = inflater.inflate(R.layout.debug_module_view, null)
+        
+        val drawerContainer = overlayView?.findViewById<ViewGroup>(R.id.debug_drawer_container)
+        drawerContainer?.removeAllViews()
+        drawerContainer?.addView(moduleView)
 
         // Set module title
-        moduleContainer.findViewById<android.widget.TextView>(R.id.tv_module_title).text = module.title
-
-        // Set module description
-        moduleContainer.findViewById<android.widget.TextView>(R.id.tv_module_description).text = module.description
+        moduleView?.findViewById<android.widget.TextView>(R.id.tv_module_title)?.text = module.title
 
         // Add module content
-        val contentContainer = moduleContainer.findViewById<android.widget.LinearLayout>(R.id.ll_module_content)
+        val contentContainer = moduleView?.findViewById<FrameLayout>(R.id.fl_module_content)
         val moduleContentView = module.createView()
-        contentContainer.addView(moduleContentView)
+        contentContainer?.addView(moduleContentView)
 
-        return moduleContainer
+        // Set up back button
+        moduleView?.findViewById<View>(R.id.btn_back_to_menu)?.setOnClickListener {
+            showMainMenu()
+        }
+
+        // Set up close button
+        moduleView?.findViewById<View>(R.id.btn_close_drawer)?.setOnClickListener {
+            hide()
+        }
     }
 }

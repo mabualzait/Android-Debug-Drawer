@@ -1,19 +1,25 @@
 package com.abualzait.debugdrawer.modules
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import com.abualzait.debugdrawer.R
 import com.abualzait.debugdrawer.utils.Logger
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import java.util.concurrent.Executors
 import javax.inject.Inject
 
 /**
- * Debug module that displays system logs.
+ * Enhanced debug module that displays real-time system logs with advanced filtering and search.
  * Note: This requires READ_LOGS permission.
  */
 class LogsModule @Inject constructor(
@@ -21,88 +27,203 @@ class LogsModule @Inject constructor(
     private val logger: Logger,
 ) : DebugModule {
 
-    override val name: String = "logs"
-    override val title: String = "System Logs"
-    override val description: String = "View system and application logs"
+    companion object {
+        private const val MAX_LOG_ENTRIES = 1000
+        private const val LOG_PARTS_MIN_SIZE = 6
+        private const val TAG_MESSAGE_DELIMITER = ':'
+        private const val COLON_INDEX_MIN = 0
+    }
+
+    override val name: String = "logcat"
+    override val title: String = "Logcat Viewer"
+    override val description: String = "Real-time logcat with filtering and search"
     override val priority: Int = 4
 
     private var listView: ListView? = null
     private var adapter: LogAdapter? = null
-    private val logEntries = mutableListOf<LogEntry>()
+    private var logCountTextView: TextView? = null
+    private val allLogEntries = mutableListOf<LogEntry>()
+    private val filteredLogEntries = mutableListOf<LogEntry>()
+    
+    private var logcatProcess: Process? = null
+    private var isStreaming = false
+    private var isPaused = false
+    private val executor = Executors.newSingleThreadExecutor()
+    private val mainHandler = Handler(Looper.getMainLooper())
+    
+    // Filter states
+    private var currentLevelFilter: LogLevel? = null
+    private var currentTagFilter: String = ""
+    private var currentSearchQuery: String = ""
+    private var autoScroll = true
 
     override fun createView(): View {
         val inflater = LayoutInflater.from(context)
-        val view = inflater.inflate(R.layout.module_logs, null)
+        val view = inflater.inflate(R.layout.module_logcat, null)
 
-        setupLogs(view)
+        setupLogcat(view)
 
-        logger.d("LogsModule", "Created logs view")
+        logger.d("LogsModule", "Created enhanced logcat view")
         return view
     }
 
-    private fun setupLogs(view: View) {
+    private fun setupLogcat(view: View) {
         listView = view.findViewById(R.id.lv_logs)
-        adapter = LogAdapter(context, logEntries)
+        logCountTextView = view.findViewById(R.id.tv_log_count)
+        adapter = LogAdapter(context, filteredLogEntries)
         listView?.adapter = adapter
 
-        // Set up refresh button
-        view.findViewById<View>(R.id.btn_refresh_logs)?.setOnClickListener {
-            refreshLogs()
+        // Set up control buttons
+        view.findViewById<View>(R.id.btn_start_streaming)?.setOnClickListener {
+            startLogcatStreaming()
+        }
+        
+        view.findViewById<View>(R.id.btn_stop_streaming)?.setOnClickListener {
+            stopLogcatStreaming()
+        }
+        
+        view.findViewById<View>(R.id.btn_pause_resume)?.setOnClickListener {
+            togglePauseResume()
         }
 
-        // Set up clear button
         view.findViewById<View>(R.id.btn_clear_logs)?.setOnClickListener {
             clearLogs()
         }
+        
+        view.findViewById<View>(R.id.btn_export_logs)?.setOnClickListener {
+            exportLogs()
+        }
 
-        // Set up filter buttons
+        // Set up level filter buttons
         view.findViewById<View>(R.id.btn_filter_verbose)?.setOnClickListener {
-            filterLogs(LogLevel.VERBOSE)
+            setLevelFilter(LogLevel.VERBOSE)
         }
         view.findViewById<View>(R.id.btn_filter_debug)?.setOnClickListener {
-            filterLogs(LogLevel.DEBUG)
+            setLevelFilter(LogLevel.DEBUG)
         }
         view.findViewById<View>(R.id.btn_filter_info)?.setOnClickListener {
-            filterLogs(LogLevel.INFO)
+            setLevelFilter(LogLevel.INFO)
         }
         view.findViewById<View>(R.id.btn_filter_warning)?.setOnClickListener {
-            filterLogs(LogLevel.WARNING)
+            setLevelFilter(LogLevel.WARNING)
         }
         view.findViewById<View>(R.id.btn_filter_error)?.setOnClickListener {
-            filterLogs(LogLevel.ERROR)
+            setLevelFilter(LogLevel.ERROR)
         }
         view.findViewById<View>(R.id.btn_show_all)?.setOnClickListener {
-            showAllLogs()
+            setLevelFilter(null)
+        }
+
+        // Set up tag filter
+        val tagFilterEditText = view.findViewById<EditText>(R.id.et_tag_filter)
+        tagFilterEditText?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // No action needed
+            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // No action needed
+            }
+            override fun afterTextChanged(s: Editable?) {
+                currentTagFilter = s?.toString() ?: ""
+                applyFilters()
+            }
+        })
+
+        // Set up search
+        val searchEditText = view.findViewById<EditText>(R.id.et_search)
+        searchEditText?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // No action needed
+            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // No action needed
+            }
+            override fun afterTextChanged(s: Editable?) {
+                currentSearchQuery = s?.toString() ?: ""
+                applyFilters()
+            }
+        })
+
+        // Set up auto-scroll toggle
+        view.findViewById<View>(R.id.btn_toggle_autoscroll)?.setOnClickListener {
+            toggleAutoScroll()
         }
     }
 
-    private fun refreshLogs() {
-        try {
-            val process = Runtime.getRuntime().exec("logcat -d -v time")
-            val reader = BufferedReader(InputStreamReader(process.inputStream))
-
-            logEntries.clear()
-
-            reader.useLines { lines ->
-                lines.forEach { line ->
-                    val logEntry = parseLogLine(line)
-                    if (logEntry != null) {
-                        logEntries.add(logEntry)
+    private fun startLogcatStreaming() {
+        if (isStreaming) return
+        
+        isStreaming = true
+        isPaused = false
+        
+        executor.execute {
+            try {
+                logcatProcess = Runtime.getRuntime().exec("logcat -v time")
+                val reader = BufferedReader(InputStreamReader(logcatProcess?.inputStream))
+                
+                reader.useLines { lines ->
+                    lines.forEach { line ->
+                        if (!isPaused) {
+                            val logEntry = parseLogLine(line)
+                            if (logEntry != null) {
+                                mainHandler.post {
+                                    addLogEntry(logEntry)
+                                }
+                            }
+                        }
                     }
                 }
+            } catch (e: Exception) {
+                logger.e("LogsModule", "Failed to stream logs", e)
+                mainHandler.post {
+                    isStreaming = false
+                }
             }
+        }
+        
+        logger.d("LogsModule", "Started logcat streaming")
+    }
 
+    private fun stopLogcatStreaming() {
+        isStreaming = false
+        logcatProcess?.destroy()
+        logcatProcess = null
+        logger.d("LogsModule", "Stopped logcat streaming")
+    }
+
+    private fun togglePauseResume() {
+        isPaused = !isPaused
+        logger.d("LogsModule", "Logcat ${if (isPaused) "paused" else "resumed"}")
+    }
+
+    private fun addLogEntry(logEntry: LogEntry) {
+        allLogEntries.add(logEntry)
+        
+        // Keep only last MAX_LOG_ENTRIES entries to prevent memory issues
+        if (allLogEntries.size > MAX_LOG_ENTRIES) {
+            allLogEntries.removeAt(0)
+        }
+        
+        // Apply current filters
+        if (matchesFilters(logEntry)) {
+            filteredLogEntries.add(logEntry)
             adapter?.notifyDataSetChanged()
-            logger.d("LogsModule", "Refreshed logs: ${logEntries.size} entries")
-        } catch (e: Exception) {
-            logger.e("LogsModule", "Failed to read logs", e)
+            updateLogCount()
+            
+            // Auto-scroll to bottom
+            if (autoScroll) {
+                listView?.post {
+                    listView?.smoothScrollToPosition(filteredLogEntries.size - 1)
+                }
+            }
         }
     }
 
     private fun clearLogs() {
         try {
             Runtime.getRuntime().exec("logcat -c")
-            logEntries.clear()
+            allLogEntries.clear()
+            filteredLogEntries.clear()
             adapter?.notifyDataSetChanged()
             logger.d("LogsModule", "Cleared logs")
         } catch (e: Exception) {
@@ -110,35 +231,79 @@ class LogsModule @Inject constructor(
         }
     }
 
-    private fun filterLogs(level: LogLevel) {
-        val filteredEntries = logEntries.filter { it.level == level }
-        adapter?.clear()
-        adapter?.addAll(filteredEntries)
-        adapter?.notifyDataSetChanged()
-        logger.d("LogsModule", "Filtered logs by level: $level")
+    private fun exportLogs() {
+        logger.d("LogsModule", "Export logs functionality not yet implemented")
     }
 
-    private fun showAllLogs() {
-        adapter?.clear()
-        adapter?.addAll(logEntries)
+    private fun setLevelFilter(level: LogLevel?) {
+        currentLevelFilter = level
+        applyFilters()
+        logger.d("LogsModule", "Set level filter: $level")
+    }
+
+    private fun toggleAutoScroll() {
+        autoScroll = !autoScroll
+        logger.d("LogsModule", "Auto-scroll ${if (autoScroll) "enabled" else "disabled"}")
+    }
+
+    private fun updateLogCount() {
+        logCountTextView?.text = "Logs: ${filteredLogEntries.size}"
+    }
+
+    private fun applyFilters() {
+        filteredLogEntries.clear()
+        
+        val filtered = allLogEntries.filter { logEntry ->
+            matchesFilters(logEntry)
+        }
+        
+        filteredLogEntries.addAll(filtered)
         adapter?.notifyDataSetChanged()
-        logger.d("LogsModule", "Showing all logs")
+        updateLogCount()
+        
+        if (autoScroll && filteredLogEntries.isNotEmpty()) {
+            listView?.post {
+                listView?.smoothScrollToPosition(filteredLogEntries.size - 1)
+            }
+        }
+    }
+
+    private fun matchesFilters(logEntry: LogEntry): Boolean {
+        // Level filter
+        if (currentLevelFilter != null && logEntry.level != currentLevelFilter) {
+            return false
+        }
+        
+        // Tag filter
+        if (currentTagFilter.isNotEmpty() && 
+            !logEntry.tag.contains(currentTagFilter, ignoreCase = true)) {
+            return false
+        }
+        
+        // Search filter
+        if (currentSearchQuery.isNotEmpty()) {
+            val searchLower = currentSearchQuery.lowercase()
+            return logEntry.message.contains(searchLower, ignoreCase = true) ||
+                   logEntry.tag.contains(searchLower, ignoreCase = true)
+        }
+        
+        return true
     }
 
     private fun parseLogLine(line: String): LogEntry? {
         return try {
             // Parse logcat format: "MM-DD HH:MM:SS.XXX PID TID LEVEL TAG: MESSAGE"
-            val parts = line.split(" ", limit = 6)
-            if (parts.size >= 6) {
+            val parts = line.split(" ", limit = LOG_PARTS_MIN_SIZE)
+            if (parts.size >= LOG_PARTS_MIN_SIZE) {
                 val timestamp = "${parts[0]} ${parts[1]}"
                 val pid = parts[2]
                 val tid = parts[3]
                 val levelStr = parts[4]
                 val tagAndMessage = parts[5]
 
-                val colonIndex = tagAndMessage.indexOf(':')
-                val tag = if (colonIndex > 0) tagAndMessage.substring(0, colonIndex) else "Unknown"
-                val message = if (colonIndex > 0) tagAndMessage.substring(colonIndex + 1).trim() else tagAndMessage
+                val colonIndex = tagAndMessage.indexOf(TAG_MESSAGE_DELIMITER)
+                val tag = if (colonIndex > COLON_INDEX_MIN) tagAndMessage.substring(0, colonIndex) else "Unknown"
+                val message = if (colonIndex > COLON_INDEX_MIN) tagAndMessage.substring(colonIndex + 1).trim() else tagAndMessage
 
                 val level = when (levelStr) {
                     "V" -> LogLevel.VERBOSE
@@ -161,7 +326,9 @@ class LogsModule @Inject constructor(
     }
 
     override fun onShow() {
-        refreshLogs()
+        if (!isStreaming) {
+            startLogcatStreaming()
+        }
     }
 
     override fun onAttach() {
@@ -169,6 +336,7 @@ class LogsModule @Inject constructor(
     }
 
     override fun onDetach() {
+        stopLogcatStreaming()
         logger.d("LogsModule", "Detached from debug drawer")
     }
 }
@@ -202,7 +370,7 @@ enum class LogLevel(val displayName: String) {
  */
 private class LogAdapter(
     context: Context,
-    logs: List<LogEntry>,
+    logs: MutableList<LogEntry>,
 ) : ArrayAdapter<LogEntry>(context, R.layout.item_log, logs) {
 
     override fun getView(position: Int, convertView: View?, parent: android.view.ViewGroup): View {
@@ -211,6 +379,7 @@ private class LogAdapter(
 
         view.findViewById<TextView>(R.id.tv_timestamp).text = log.timestamp
         view.findViewById<TextView>(R.id.tv_level).text = log.level.displayName
+        view.findViewById<TextView>(R.id.tv_pid).text = log.pid
         view.findViewById<TextView>(R.id.tv_tag).text = log.tag
         view.findViewById<TextView>(R.id.tv_message).text = log.message
 
