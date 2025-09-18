@@ -3,179 +3,181 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="4dp">
 
-    <!-- Control Buttons Row -->
+    <!-- Top Control Row -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="4dp">
 
         <Button
             android:id="@+id/btn_start_streaming"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_weight="1"
-            android:layout_marginEnd="4dp"
+            android:layout_marginEnd="2dp"
             android:text="Start"
-            android:textSize="12sp" />
+            android:textSize="10sp" />
 
         <Button
             android:id="@+id/btn_stop_streaming"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_weight="1"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
             android:text="Stop"
-            android:textSize="12sp" />
+            android:textSize="10sp" />
 
         <Button
             android:id="@+id/btn_pause_resume"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_weight="1"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
             android:text="Pause"
-            android:textSize="12sp" />
+            android:textSize="10sp" />
 
         <Button
             android:id="@+id/btn_clear_logs"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_weight="1"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="2dp"
             android:text="Clear"
-            android:textSize="12sp" />
+            android:textSize="10sp" />
 
     </LinearLayout>
 
-    <!-- Filter and Search Row -->
+    <!-- Filter Row -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="4dp">
 
         <EditText
             android:id="@+id/et_tag_filter"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_weight="1"
-            android:layout_marginEnd="4dp"
+            android:layout_marginEnd="2dp"
             android:hint="Filter by tag"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:padding="8dp" />
 
         <EditText
             android:id="@+id/et_search"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_weight="1"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
             android:hint="Search logs"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:padding="8dp" />
 
         <Button
             android:id="@+id/btn_toggle_autoscroll"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="2dp"
             android:text="Auto"
             android:textSize="10sp"
             android:padding="8dp" />
 
     </LinearLayout>
 
-    <!-- Level Filter Buttons -->
+    <!-- Level Filter Row -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="4dp">
 
         <Button
             android:id="@+id/btn_filter_verbose"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="36dp"
             android:layout_weight="1"
-            android:layout_marginEnd="2dp"
+            android:layout_marginEnd="1dp"
             android:text="V"
-            android:textSize="10sp"
+            android:textSize="9sp"
             android:backgroundTint="@android:color/darker_gray" />
 
         <Button
             android:id="@+id/btn_filter_debug"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="36dp"
             android:layout_weight="1"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="2dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
             android:text="D"
-            android:textSize="10sp"
+            android:textSize="9sp"
             android:backgroundTint="@android:color/holo_blue_bright" />
 
         <Button
             android:id="@+id/btn_filter_info"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="36dp"
             android:layout_weight="1"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="2dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
             android:text="I"
-            android:textSize="10sp"
+            android:textSize="9sp"
             android:backgroundTint="@android:color/holo_green_light" />
 
         <Button
             android:id="@+id/btn_filter_warning"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="36dp"
             android:layout_weight="1"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="2dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
             android:text="W"
-            android:textSize="10sp"
+            android:textSize="9sp"
             android:backgroundTint="@android:color/holo_orange_light" />
 
         <Button
             android:id="@+id/btn_filter_error"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="36dp"
             android:layout_weight="1"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="2dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
             android:text="E"
-            android:textSize="10sp"
+            android:textSize="9sp"
             android:backgroundTint="@android:color/holo_red_light" />
 
         <Button
             android:id="@+id/btn_show_all"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="36dp"
             android:layout_weight="1"
-            android:layout_marginStart="2dp"
+            android:layout_marginStart="1dp"
             android:text="All"
-            android:textSize="10sp"
+            android:textSize="9sp"
             android:backgroundTint="@android:color/white" />
 
     </LinearLayout>
 
-    <!-- Export Button -->
+    <!-- Export and Count Row -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="4dp">
 
         <Button
             android:id="@+id/btn_export_logs"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="36dp"
             android:text="Export Logs"
-            android:textSize="12sp" />
+            android:textSize="10sp"
+            android:padding="8dp" />
 
         <TextView
             android:id="@+id/tv_log_count"
@@ -185,11 +187,12 @@
             android:text="Logs: 0"
             android:textSize="12sp"
             android:gravity="center_vertical"
-            android:layout_marginStart="8dp" />
+            android:layout_marginStart="8dp"
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 
-    <!-- Logs ListView -->
+    <!-- Logs ListView - Takes up ALL remaining space -->
     <ListView
         android:id="@+id/lv_logs"
         android:layout_width="match_parent"
@@ -198,6 +201,7 @@
         android:divider="@android:color/transparent"
         android:dividerHeight="1dp"
         android:background="@android:color/black"
-        android:padding="4dp" />
+        android:padding="4dp"
+        android:scrollbars="vertical" />
 
 </LinearLayout>
