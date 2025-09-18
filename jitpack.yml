@@ -4,7 +4,10 @@ jdk:
 before_install:
   - echo "Starting JitPack build for Android Debug Drawer"
 
+install:
+  - ./gradlew :debugdrawer:clean :debugdrawer:publishToMavenLocal -x lint -x detekt -x ktlintMainSourceSetCheck
+
 build:
-  - ./gradlew clean build publishToMavenLocal
+  - ./gradlew :debugdrawer:clean :debugdrawer:build -x lint -x detekt -x ktlintMainSourceSetCheck
 
 # JitPack will automatically detect the Android library and create the AAR

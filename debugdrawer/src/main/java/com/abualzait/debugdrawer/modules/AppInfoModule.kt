@@ -41,7 +41,12 @@ class AppInfoModule @Inject constructor(
             view.findViewById<TextView>(R.id.tv_app_name).text = getAppName()
             view.findViewById<TextView>(R.id.tv_package_name).text = context.packageName
             view.findViewById<TextView>(R.id.tv_version_name).text = packageInfo.versionName
-            view.findViewById<TextView>(R.id.tv_version_code).text = packageInfo.longVersionCode.toString()
+            view.findViewById<TextView>(R.id.tv_version_code).text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                packageInfo.longVersionCode.toString()
+            } else {
+                @Suppress("DEPRECATION")
+                packageInfo.versionCode.toString()
+            }
             view.findViewById<TextView>(R.id.tv_target_sdk).text = packageInfo.applicationInfo.targetSdkVersion.toString()
             view.findViewById<TextView>(R.id.tv_min_sdk).text = packageInfo.applicationInfo.minSdkVersion.toString()
         } catch (e: PackageManager.NameNotFoundException) {
